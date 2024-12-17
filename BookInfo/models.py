@@ -16,7 +16,7 @@ class Book(models.Model):                   # книга
     genre = models.CharField(verbose_name='Жанр', max_length=20)
     year_of_publication = models.DateField(verbose_name='Дата публикации', auto_now=False)
     description = models.TextField(verbose_name='Описание')
-    cover = models.ImageField(upload_to='upload/Book/', max_length=100, verbose_name='Обложка книги')
+    cover = models.ImageField(upload_to='upload/Book/', max_length=100, verbose_name='Обложка книги', unique=False)
     date_added = models.DateField(auto_created=True, verbose_name='Дата добавления')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

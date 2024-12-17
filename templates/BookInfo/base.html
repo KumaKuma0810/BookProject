@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Книжная полка{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Добро пожаловать на Книжную полку</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'book-list' %}">Книги</a></li>
+                <li><a href="{% url 'book-add' %}">Добавить книгу</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2023 Книжная полка</p>
+    </footer>
+</body>
+</html>
