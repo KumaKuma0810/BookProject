@@ -1,0 +1,17 @@
+# Папки
+__pycache__/
+env/
+venv/
+*.egg-info/
+media/
+
+# Файлы
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.log
+
+# IDE
+.idea/
+.vscode/
