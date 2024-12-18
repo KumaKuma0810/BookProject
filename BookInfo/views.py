@@ -4,10 +4,13 @@ from django.urls import reverse_lazy
 
 from .models import Book, Review, ReadListBook, User
 
-class BookListView(ListView):
-    model = Book
-    template_name = 'BookInfo/book-list.html'
-    content_object_name = 'books'
+class BookList(request): 
+    books = Book.objects.all() 
+    return render(request, 'book-list.html', context={"books": books} )
+
+    # model = Book
+    # template_name = 'BookInfo/book-list.html'
+    # content_object_name = 'books'
 
 
 class BookDetailView(DetailView):
