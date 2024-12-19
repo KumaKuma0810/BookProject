@@ -1,12 +1,14 @@
 from django.contrib import admin
 from .models import *
+from django.utils.html import format_html
 
 class ReviewAdmin(admin.ModelAdmin):
     list_display = (
         'username',
         'creation_date',
-        'book'        
+        'book'  
     )
+
 
 class ReadListBookAdmin(admin.ModelAdmin):
     list_display = (
@@ -20,8 +22,14 @@ class BookAdmin(admin.ModelAdmin):
         'username',
         'avtor', 
         'genre', 
-        'date_added'
+        'date_added',
+        'display_image',
     )
+
+    def display_image(self, obj):
+        if obj.cover:
+            return format_html('<img src="{}" style="width: 100px; height: 100px; border: 1px solid #ccc;" />', obj.cover.url)
+
 
     search_fields = ('avtor', 'genre', 'date_added')
     ordering = ('date_added',)

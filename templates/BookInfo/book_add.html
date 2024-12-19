@@ -3,5 +3,13 @@
 {% block title %} Добавить книгу  {% endblock %}
 
 {% block content %}
-<h1>Books add</h1>
+<h2>Add book</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input type="submit" value="Send">
+</form>
+
 {% endblock content %}

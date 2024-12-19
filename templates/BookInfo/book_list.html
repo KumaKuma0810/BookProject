@@ -3,13 +3,7 @@
 {% block content %}
 
 <h2>Список книг</h2>
-<ul>
-    {% for book in books %}
-        <li>
-            {{ book }}
-        </li>
-    {% endfor %}
-</ul>
-<a href="#">Добавить новую книгу</a>
+
+<a href="{% url 'book-add' %}">Добавить новую книгу</a>
 
 {% endblock %}

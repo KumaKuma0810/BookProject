@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 
 class User(models.Model):                   # пользователь
     username = models.CharField(verbose_name='Имя пользователя', max_length=20)
@@ -11,14 +11,13 @@ class User(models.Model):                   # пользователь
 
 
 class Book(models.Model):                   # книга
-    username = models.CharField(verbose_name='Название книги', max_length=20)
+    username = models.CharField(verbose_name='Название книги', max_length=100)
     avtor = models.CharField(verbose_name='Автор', max_length=10)
     genre = models.CharField(verbose_name='Жанр', max_length=20)
-    year_of_publication = models.DateField(verbose_name='Дата публикации', auto_now=False)
-    description = models.TextField(verbose_name='Описание')
-    cover = models.ImageField(upload_to='upload/Book/', max_length=100, verbose_name='Обложка книги', unique=False)
-    date_added = models.DateField(auto_created=True, verbose_name='Дата добавления')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    year_of_publication = models.DateField(verbose_name='Дата публикации книги', blank=False)
+    description = models.TextField(verbose_name='Описание', blank=False)
+    cover = models.ImageField(upload_to='upload/Book/', max_length=100, verbose_name='Обложка книги', unique=True, blank=True, default='upload/BookInfo/default.jpg')
+    date_added = models.DateField(verbose_name='Дата добавления', default=timezone.now, blank=True)
 
     def __str__(self):
         return self.username

@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 # from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 # from django.urls import reverse_lazy
 
-from .models import Book, Review, ReadListBook, User
+from .models import *
+from .forms import AddBookForms
 
 def BookList(request): 
     books = Book.objects.all() 
@@ -19,6 +20,26 @@ def BookList(request):
 #     template_name = 'BookInfo/book_detail.html'
 #     content_object_name = 'book'
 
+
+def BookAdd(request):
+    if request.method == 'POST':
+        form = AddBookForms(request.POST, request.FILES)
+
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            avtor = form.cleaned_data['avtor']
+            genre = form.cleaned_data['genre']
+            year_of_publication = form.cleaned_data['year_of_publication']
+            description = form.cleaned_data['description']
+            cover = form.cleaned_data['cover']
+
+            return redirect('book-list')
+        else:
+            return HttpResponse('Invalid data')
+    else:
+        form = AddBookForms()
+
+    return render(request, 'BookInfo/book_add.html', {'form': form})
 
 # class BookCreateView(CreateView):
 #     model = Book
