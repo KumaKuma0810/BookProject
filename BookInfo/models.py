@@ -12,7 +12,7 @@ class User(models.Model):                   # пользователь
 
 class Book(models.Model):                   # книга
     username = models.CharField(verbose_name='Название книги', max_length=100)
-    avtor = models.CharField(verbose_name='Автор', max_length=10)
+    avtor = models.CharField(verbose_name='Автор', max_length=100)
     genre = models.CharField(verbose_name='Жанр', max_length=20)
     year_of_publication = models.DateField(verbose_name='Дата публикации книги', blank=False)
     description = models.TextField(verbose_name='Описание', blank=False)

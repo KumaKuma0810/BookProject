@@ -5,37 +5,22 @@ from django.shortcuts import render, redirect
 from .models import *
 from .forms import AddBookForms
 
+def About(request):
+    return render(request, 'BookInfo/about.html')
+
 def BookList(request): 
     books = Book.objects.all() 
 
-    return render(request, 'BookInfo/book_list.html')
-
-    # model = Book
-    # template_name = 'BookInfo/book-list.html'
-    # content_object_name = 'books'
-
-
-# class BookDetailView(DetailView):
-#     model = Book
-#     template_name = 'BookInfo/book_detail.html'
-#     content_object_name = 'book'
-
+    return render(request, 'BookInfo/book_list.html', {'books': books})
 
 def BookAdd(request):
     if request.method == 'POST':
-        form = AddBookForms(request.POST, request.FILES)
+        form = AddBookForms(request.POST)
 
         if form.is_valid():
-            name = form.cleaned_data['name']
-            avtor = form.cleaned_data['avtor']
-            genre = form.cleaned_data['genre']
-            year_of_publication = form.cleaned_data['year_of_publication']
-            description = form.cleaned_data['description']
-            cover = form.cleaned_data['cover']
-
-            return redirect('book-list')
-        else:
-            return HttpResponse('Invalid data')
+            form = form.save()
+        #   book = Book.objects.create(**form.cleaned_data)
+            return redirect('/')
     else:
         form = AddBookForms()
 

@@ -1,0 +1,16 @@
+.container-main {
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #d8b03a ;
+}
+
+.card {
+    border: none;
+}
+
+.row-cols-md-3 > * {
+    padding: 20px;
+  }
