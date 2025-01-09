@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Book
+from .models import *
 
 # class AddBookForms(forms.Form):
 #     username = forms.CharField(max_length=200, label='Название книги', required=True, widget=forms.TextInput())
@@ -15,7 +15,7 @@ class AddBookForms(forms.ModelForm):
     class Meta:
         model = Book
         fields = [
-            'username',
+            'name_book',
             'avtor',
             'genre',
             'year_of_publication',
@@ -23,10 +23,21 @@ class AddBookForms(forms.ModelForm):
             'cover'
         ]
         widget = {
-            'username': forms.TextInput(attrs={'class': 'form-control'}),            
+            'name_book': forms.TextInput(attrs={'class': 'form-control'}),            
             'avtor': forms.TextInput(attrs={'class': 'form-control'}),
             'genre': forms.TextInput(attrs={'class': 'form-control'}),
             'year_of_publication': forms.DateInput(attrs={'class': 'form-control'}),
             'description': forms.TextInput(attrs={'rows': 5, 'class': 'form-control'}),
             'cover': forms.FileInput(attrs={'class': 'form-control'}),
         }
+
+class CommentsForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['text', 'creation_at', 'rating', 'username', 'book', 'parent']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'parent' in self.fields:
+            self.fields['parent'].required = False
+        

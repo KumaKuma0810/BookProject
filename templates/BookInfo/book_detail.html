@@ -4,6 +4,78 @@
 
 {% block content %}
 
-<h1>Books  details</h1>
+    <!-- Страница товара -->
+    <div class="container mt-5">
+        <div class="row row-books">
+            <!-- Обложка книги -->
+            <div class="col-md-4">
+                <img src="{{ book.cover.url }}" alt="Обложка книги" class="book-cover rounded" width="400px">
+            </div>
+            <!-- Информация о книге -->
+            <div class="col-md-8">
+                <h2>{{ book.book_name }}</h2>
+                <p><strong>Автор:</strong> {{ book.avtor }} </p>
+                <p><strong>Жанр:</strong> {{ book.genre }} </p>
+                <p><strong>Год публикации:</strong> {{ book.year_of_publication }}</p>
 
-{% endblock %}
+                <!-- Рейтинг -->
+                <!-- <div class="rating">
+                    <span>⭐</span>
+                    <span>⭐</span>
+                    <span>⭐</span>
+                    <span>⭐</span>
+                    <span>☆</span>
+                    (4.0 / 5) | 120 отзывов
+                </div> -->
+
+                <!-- Краткое описание -->
+                 <br>
+                <h5>Описание</h5>
+                <p> {{ book.description }}</p>
+                <a class="btn btn-primary">Добавить в избранное </a>
+            </div>
+        </div>
+        <hr>
+        <!-- форма для отзывов -->
+        <div class="container mt-5">
+            <h1 class="text-center">Оставьте комментарий</h1>
+            <form>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Ваше имя</label>
+                    <input type="text" class="form-control" id="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Ваша электронная почта</label>
+                    <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Ваш комментарий</label>
+                    <textarea class="form-control" id="comment" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Отправить комментарий</button>
+            </form>
+        </div>
+        {% for comment in rating_book %}
+        <div class="container-fluid container-feedback">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-2">
+                        <img src="{{ comment.username.avatar.url }}" class="img-fluid rounded-start" alt="Аватар">
+                    </div>
+                    <div class="col-md-10">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ comment.username }}</h5>
+                            <p class="card-text"><small class="text-muted">{{ comment.create_at }}</small></p>
+                            <p class="card-text">{{ comment.text }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+    </div>
+
+
+
+{% endblock content %}

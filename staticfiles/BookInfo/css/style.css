@@ -1,0 +1,72 @@
+.container-main {
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #c6c5c2 ;
+}
+
+.card {
+    border: none;
+}
+
+.row-cols-md-3 > * {
+    padding: 20px;
+  }
+
+  .search-container {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    max-width: 1000px;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.search-container:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.form-control.search-input {
+    border: none;
+    background: transparent;
+    padding-left: 20px;
+    font-size: 1rem;
+    height: 50px;
+}
+
+.form-control.search-input:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.btn-search {
+    background-color: #e1af1a;
+    color: white;
+    border-radius: 50px;
+    padding: 10px 20px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-search:hover {
+    background-color: #a17e16;
+    transform: scale(1.05);
+}
+
+.search-icon {
+    color: #6c757d;
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.container-main-search {
+    margin: 200px 0px;
+    padding: 30px;
+}
+
+.col-search {
+    padding: 20px;
+}

@@ -4,7 +4,7 @@
 }
 
 .nav-pills .nav-link.active {
-    background-color: #d8b03a ;
+    background-color: #bf9d36 ;
 }
 
 .card {
@@ -13,4 +13,33 @@
 
 .row-cols-md-3 > * {
     padding: 20px;
-  }
+}
+
+.container .container-main-search {
+    margin-top: 150px;
+    margin-bottom: 100px; 
+}
+
+.col-search {
+    padding: 10px;
+}
+
+.rounded-circle {
+    width: 40px;
+}
+
+.card-img-top {
+    height: 550px;
+}
+
+#fullComment {
+    display: none; /* Скрываем полный текст комментария по умолчанию */
+}
+
+.container-feedback {
+    margin: 100px 0px;
+}
+
+.row-books {
+    margin-bottom: 140px;
+}

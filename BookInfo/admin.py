@@ -5,9 +5,13 @@ from django.utils.html import format_html
 class ReviewAdmin(admin.ModelAdmin):
     list_display = (
         'username',
-        'creation_date',
+        'creation_at',
         'book'  
     )
+    list_filter = ('username', 'creation_at')
+
+    # def post_link(self, obj):
+    #     return mark_safe(f'<a href="{obj.book.get_absolute_url()}">{obj.book.username} </a> ')
 
 
 class ReadListBookAdmin(admin.ModelAdmin):
@@ -17,9 +21,19 @@ class ReadListBookAdmin(admin.ModelAdmin):
 
     search_fields = ('list_name', 'list_name', 'books')
 
+
+
+class UserAdmin(admin.ModelAdmin):
+    list_display = (
+        'username', 
+        'email'
+    )
+
+    search_fields = ('username', 'email')
+
 class BookAdmin(admin.ModelAdmin):
     list_display = (
-        'username',
+        'name_book',
         'avtor', 
         'genre', 
         'date_added',
@@ -34,15 +48,7 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = ('avtor', 'genre', 'date_added')
     ordering = ('date_added',)
 
-class UserAdmin(admin.ModelAdmin):
-    list_display = (
-        'username', 
-        'email'
-    )
-
-    search_fields = ('username', 'email')
-
 admin.site.register(Review, ReviewAdmin)
 admin.site.register(ReadListBook ,ReadListBookAdmin)
-admin.site.register(Book, BookAdmin)
 admin.site.register(User, UserAdmin)
+admin.site.register(Book, BookAdmin)

@@ -1,0 +1,40 @@
+{% extends 'BookInfo/base.html' %}
+
+{% block title %} Поиск книги  {% endblock %}
+
+{% block content %}
+<div class="container container-main-search">
+    <form>
+         <div class="form-row">
+            <div class="col col-search">
+                <input type="text" class="form-control" autofocus required title="name_book" placeholder="Введите название книги">
+            </div>
+            <div class="col col-search">
+                <p align="center" >
+                    <input type="submit" class="btn btn-primary btn-primary-search" value="Поиск">
+                </p>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="col">
+            <div class="card shadow-sm">
+            <img src="{{ book.cover }}" alt="{{ book.username }}" class="card-img-top" width="100%" height="355">
+            <div class="card-body">
+                <h2>{{ book.username }} </h2>
+                <p class="card-text"> {{ book.description|truncatechars:150 }} </p>
+                <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Подробнее</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">В закладки</button>
+                </div>
+                <small class="text-body-secondary"> {{ book.date_added }}</small>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
