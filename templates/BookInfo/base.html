@@ -12,15 +12,8 @@
         
     </head>
     <body>
-        {% include 'BookInfo/template_tag/nav.html' %}    
-        <div class="container">            
-            
-
-            <div class="d-flex flex-nowrap container-main">
-                <div class="container">
-                    {% block content %} {% endblock content %}
-                </div>
-            </div>
+        {% include 'BookInfo/inc/nav.html' %}  
+        {% block content %} {% endblock content %}
         </div>
         <script src="/static/BookInfo/script.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

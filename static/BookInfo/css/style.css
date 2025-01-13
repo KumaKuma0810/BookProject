@@ -1,6 +1,6 @@
 .container-main {
-    margin-top: 20px;
-    margin-bottom: 50px;
+    margin-top: 100px;
+    margin-bottom: 70px;
 }
 
 .nav-pills .nav-link.active {
@@ -42,4 +42,33 @@
 
 .row-books {
     margin-bottom: 140px;
+}
+
+.res-ul {
+    padding: 100px 0px;
+}
+
+.form-search {
+    text-align: center;
+    padding: 100px 0px;
+    background-image: url(/upload/BookInfo/knigi-fon-stil-vladstudio.jpg);
+}
+
+.form-search p {
+    padding: 0px 10px;
+}
+
+header {
+    position: relative;
+    margin-bottom: 3rem;
+    padding-top: calc(8rem + 57px);
+    padding-bottom: 8rem;
+    background: no-repeat center center;
+    background-color: rgba(0, 0, 0, 0);
+    background-attachment: scroll;
+    background-image: none;
+    background-size: auto;
+    background-color: #6c757d;
+    background-size: cover;
+    background-attachment: scroll;
 }

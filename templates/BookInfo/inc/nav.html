@@ -33,26 +33,21 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        {% if uuser.is_authenticated %}
+        
         <li class="nav-item"><a href="#" class="nav-link">Моя Библиотека</a></li>
-        <li class="nav-item"><a href="{% url 'book-add' %}" class="nav-link">Добавить Книгу</a></li>
-        {% else %}
+        <li class="nav-item"><a href="{% url 'book-add' %}" class="nav-link">Добавить Книгу</a></li>  
+        <li class="nav-item"><a href="{% url 'search' %}" class="nav-link">Поиск</a></li>
         <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">О нас</a></li>
-        {% endif %}
       </ul>
-
-      <!-- Строка поиска -->
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Найти</button>
-      </form>
-
-      <!-- Отображение изображения пользователя -->
+      
       <div class="ms-3">
         <!-- Если пользователь не зарегистрирован, отображается картинка по умолчанию -->
-        {% if uuser.is_authenticated %}
-        <img src=" " alt="User" />
-        {% endif %}
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+          <li class="nav-item"><a href="{% url 'signup' %}" class="nav-link">Регистрация</a></li>
+          <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">Вход</a></li>
+          
+        </ul>
         <!-- Если пользователь зарегистрирован, можно будет отобразить его аватар, например: -->
         <!-- <img src="[URL_к_аватару]" alt="User" class="rounded-circle" /> -->
         <!-- {% if user.profile.avatar %}

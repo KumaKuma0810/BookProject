@@ -3,38 +3,67 @@
 {% block title %}Список книг{% endblock %}
 
 {% block content %}
-{% include 'BookInfo/template_tag/signin_main.html' %}
-
-<hr>
-
-<div class="container">
-
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        {% for book in books %}
+<header class="bg-dark py-5">
+    <div class="container px-5">
+        <div class="row gx-5 align-items-center justify-content-center">
+            <div class="col-lg-8 col-xl-7 col-xxl-6">
+                <div class="my-5 text-center text-xl-start">
+                    <h1 class="display-5 fw-bolder text-white mb-2">Добро пожаловать в БиблиоГид!</h1>
+                    <p class="lead fw-normal text-white-50 mb-4">Откройте для себя мир знаний, приключений и вдохновения с нашим обширным каталогом книг! </p>
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
+                        <a class="btn btn-primary btn-lg px-4 me-sm-3" href="#features">Get Started</a>
+                        <a class="btn btn-outline-light btn-lg px-4" href="#!">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5" src="https://dummyimage.com/600x400/343a40/6c757d" alt="..."></div>
+        </div>
+    </div>
+</header>
+<div class="d-flex flex-nowrap container-main">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for obj in page_obj %}
         <div class="col col-book-list">
             <div class="card shadow-sm">
-            <img src="{{ book.cover }}" alt="{{ book.username }}" class="card-img-top" width="100%" height="355">
+            <img src="{{ obj.cover.url }}" alt="{{ book.username }}" class="card-img-top" width="100%" height="355">
             <div class="card-body">
-                <h2>{{ book.username }} </h2>
-                <p class="card-text"> {{ book.description|truncatechars:150 }} </p>
+                <h2>{{ obj.username }} </h2>
+                <p class="card-text"> {{ obj.description|truncatechars:150 }} </p>
                 <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                    <a href="{% url 'book_detail' book.id %}" type="button" class="btn btn-sm btn-outline-secondary"> Подробнее</a>
+                    <a href="{% url 'book_detail' obj.id %}" type="button" class="btn btn-sm btn-outline-secondary"> Подробнее</a>
                     
-                    {% if uuser.is_authenticated %}
+                    {% if user.is_authenticated %}
                     <button type="button" class="btn btn-sm btn-outline-secondary">В закладки</button>
                     {% endif %}
                     
                 </div>
-                <small class="text-body-secondary"> {{ book.date_added }}</small>
+                <small class="text-body-secondary"> {{ obj.date_added }}</small>
                 </div>
             </div>
             </div>
         </div>
         {% endfor %}
-      
+        </div>
     </div>
-  </div>
+</div>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; Первая</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+        {% endif %}
 
+        <span class="current">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 
 {% endblock %}

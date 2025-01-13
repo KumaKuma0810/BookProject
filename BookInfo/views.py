@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-# from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-# from django.urls import reverse_lazy
+from django.core.paginator import Paginator 
 
+# from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+# from django.urls import reverse_laz
 from .models import *
 from .forms import *
 
@@ -10,9 +11,13 @@ def About(request):
     return render(request, 'BookInfo/about.html')
 
 def BookList(request): 
-    books = Book.objects.all() 
+    object_list = Book.objects.all()  # Получаем все объекты модели
+    paginator = Paginator(object_list, 6)  # 10 объектов на странице
 
-    return render(request, 'BookInfo/book_list.html', {'books': books})
+    page_number = request.GET.get('page')  # Получаем номер страницы из URL
+    page_obj = paginator.get_page(page_number)  # Получаем объекты для текущей страницы
+
+    return render(request, 'BookInfo/book_list.html', {'object_list': object_list, 'page_obj': page_obj})
 
 def BookAdd(request):
     if request.method == 'POST':
@@ -30,7 +35,6 @@ def BookDetail(request, pk):
     book = get_object_or_404(Book, pk=pk)
     rating_book = Review.objects.all()
     
-
     if request.method == 'POST':
         book_form = CommentsForm(request.POST)
 
@@ -43,7 +47,6 @@ def BookDetail(request, pk):
             if parent_comm:
                 comment.parent = book_form.objects.get(id=parent_comm)
             comment.save()
-
             return redirect('post_detail', pk=pk)
     else:
         book_form = CommentsForm()
@@ -62,6 +65,39 @@ def BookDetail(request, pk):
 
 
     return render(request, 'BookInfo/book_detail.html', {'book': book})
+
+def SearchBooks(request):
+    form = SearchForm(request.GET)
+    
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        books_query = Book.objects.filter(name_book__exact=query)
+
+    return render(request, 'BookInfo/search_list.html', {
+        'book': books_query,
+        'form': form,
+    })
+
+
+    
+    # return render(request, 'BookInfo/template_tag/sigin_main.html', {'form': form})
+
+def Signup(request):
+    if request.method == 'POST':
+        form = SignForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('book-list')
+    else:
+        form = SignForm()
+
+    return render(request, 'BookInfo/signin.html', {'form': form})
+
+def Login(request):
+    pass
+
 
 
 # class BookCreateView(CreateView):

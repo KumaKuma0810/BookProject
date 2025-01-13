@@ -1,4 +1,7 @@
 from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from django.contrib.auth.forms import UserCreationForm
 
 from .models import *
 
@@ -31,6 +34,7 @@ class AddBookForms(forms.ModelForm):
             'cover': forms.FileInput(attrs={'class': 'form-control'}),
         }
 
+
 class CommentsForm(forms.ModelForm):
     class Meta:
         model = Review
@@ -41,3 +45,53 @@ class CommentsForm(forms.ModelForm):
         if 'parent' in self.fields:
             self.fields['parent'].required = False
         
+
+class SearchForm(forms.Form):
+    query = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+
+class SignForm(forms.ModelForm):
+    username = forms.CharField(required=True, max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}), label='Имя пользователя')
+    password = forms.CharField(required=True, max_length=255, widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Пароль')
+    password1 = forms.CharField(required=True, max_length=255, widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Повторите пароль')
+    email = forms.CharField(required=True, max_length=255, widget=forms.EmailInput(attrs={'class': 'form-control'}), label='Почта')
+
+    class Meta:
+        model = User 
+        fields = ['username', 'password', 'password1', 'email']
+
+    # def clean_field(self):
+        # cleaned_data = super().clean()
+        # password = cleaned_data('password')
+        # password1 = cleaned_data('password1')
+        
+        # if password is not password1:
+        #     raise ValidationError('Пароли не совпадают !')
+        # return cleaned_data
+
+
+
+
+
+
+
+# class LoginForm(forms.Form):
+#     username = forms.CharField(max_length=255, label='Логин')
+#     password = forms.CharField(widget=forms.PasswordInput, label='Пароль')
+
+#     def clean(self):
+#         cleaned_data = super().clean()
+#         username = cleaned_data['username']
+#         password = cleaned_data['password']
+#         user = authenticate(username=username, password=password)
+
+#         if user in None:
+#             raise forms.ValidationError('Неверный логин или пароль')
+
+#         cleaned_data['user'] = user
+#         return cleaned_data
+    
+
+
+
+    
