@@ -50,5 +50,5 @@ class BookAdmin(admin.ModelAdmin):
 
 admin.site.register(Review, ReviewAdmin)
 admin.site.register(ReadListBook ,ReadListBookAdmin)
-admin.site.register(User, UserAdmin)
+admin.site.register(Userdb, UserAdmin)
 admin.site.register(Book, BookAdmin)

@@ -3,13 +3,18 @@ from django.utils import timezone
 
 
 
-class User(models.Model):                   # пользователь
+class Userdb(models.Model):                   # пользователь
     username = models.CharField(verbose_name='Имя пользователя', max_length=20)
-    email = models.EmailField(verbose_name='Почта пользователя', unique=True)
+
+    email = models.EmailField(verbose_name='Почта пользователя', max_length=255)
     avatar = models.ImageField(upload_to='upload/Users/Avatar/', verbose_name='Аватарка', blank=True, default='/upload/Users/Avatar/avatar_default.png')
 
     def __str__(self):
         return self.username
+            
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
 
 
 class Book(models.Model):                   # книга
@@ -18,11 +23,18 @@ class Book(models.Model):                   # книга
     genre = models.CharField(verbose_name='Жанр', max_length=20)
     year_of_publication = models.DateField(verbose_name='Дата публикации книги', blank=False)
     description = models.TextField(verbose_name='Описание', blank=False)
-    cover = models.ImageField(upload_to='upload/Book/', max_length=100, verbose_name='Обложка книги', unique=True, blank=True, default='/upload/Book/Image-not-found.png')
+    cover = models.ImageField(upload_to='upload/Book/', max_length=100, verbose_name='Обложка книги', unique=False, blank=True, default='/upload/Book/Image-not-found.png')
     date_added = models.DateField(verbose_name='Дата добавления', default=timezone.now, blank=True)
 
+    
+    class Meta:
+        verbose_name = 'Книги'
+        verbose_name_plural = 'Книги'
+        ordering = ['-date_added']
+    
     def __str__(self):
         return self.name_book
+
 
 
 class Review(models.Model):                 # отзыв
@@ -30,7 +42,7 @@ class Review(models.Model):                 # отзыв
     creation_at = models.DateTimeField(default=timezone.now, verbose_name='Дата создания', unique=False, blank=False)
     rating = models.PositiveIntegerField(choices=[(i, str(i)) for i in range(1, 6)])
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
-    username = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+    username = models.ForeignKey(Userdb, on_delete=models.CASCADE, verbose_name='Пользователь')
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='Книга')
 
     # def get_average_rating(self):

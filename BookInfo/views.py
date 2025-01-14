@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator 
-
+# from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 # from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 # from django.urls import reverse_laz
 from .models import *
@@ -21,11 +22,10 @@ def BookList(request):
 
 def BookAdd(request):
     if request.method == 'POST':
-        form = AddBookForms(request.POST)
+        form = AddBookForms(request.POST, request.FILES)
         if form.is_valid():
-            form = form.save()
-        #   book = Book.objects.create(**form.cleaned_data)
-            return redirect('/')
+            form.save()  # Сохраняем новый продукт в базе данных
+            return redirect('/')  # Перенаправление на страницу со списком продуктов
     else:
         form = AddBookForms()
     return render(request, 'BookInfo/book_add.html', {'form': form})
@@ -83,22 +83,28 @@ def SearchBooks(request):
     # return render(request, 'BookInfo/template_tag/sigin_main.html', {'form': form})
 
 def Signup(request):
-    if request.method == 'POST':
-        form = SignForm(request.POST)
+    if request.method == 'POST':    
+        form = UserRegisterForm(request.POST)
 
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            return redirect('book-list')
+            messages.success(request, 'Account success!')
+            # login(request, user)
+            # return redirect('2')
+        else:
+            messages.error(request, 'Error account!')
     else:
-        form = SignForm()
+        form = UserRegisterForm()
 
-    return render(request, 'BookInfo/signin.html', {'form': form})
+    return render(request, 'BookInfo/signup.html', {'form': form})
+
+
 
 def Login(request):
     pass
 
-
+def Singin(request):
+    pass
 
 # class BookCreateView(CreateView):
 #     model = Book

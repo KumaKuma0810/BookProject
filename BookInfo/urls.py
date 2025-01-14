@@ -5,7 +5,7 @@ urlpatterns = [
     # path('search/', SearchList, name='search'),
     path('', BookList, name='book-list'),
     # path('my-book/', MyBook, name='my-book'),
-    path('book/add/', BookAdd, name='book-add'),
+    path('bookAdd/', BookAdd, name='bookAdd'),
     path('about/', About, name='about'),
     path('book/<int:pk>/', BookDetail, name='book_detail'),
     path('search/', SearchBooks, name='search'),
@@ -14,6 +14,7 @@ urlpatterns = [
     # path('logout/', LogoutView, name='logout'),
     path('signup/', Signup, name='signup'),
     path('login/', Login, name='login'),
+    path('signin/', Singin, name='signin')
 
     # path('book/<int:pk>/', BookDetailView(), name='book-detail'),
     # path('book/<int:pk>/edit/', BookUpdateView.as_view(), name='book-edit'),
