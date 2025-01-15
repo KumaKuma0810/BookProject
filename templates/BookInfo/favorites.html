@@ -1,0 +1,29 @@
+{% extends 'BookInfo/base.html' %}
+
+{% block title %}Профиль {% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h1 class="text-center">Ваши Избранные Элементы</h1>
+    <div class="row mt-4">
+
+        <!-- Пример карточки товара -->
+    {% for book in books %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="{{ book.cover.url }}" class="card-img-top" alt="{{ book.name_book}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.name_book }}</h5>
+                    <p class="card-text">{{ book.description }}</p>
+                    <a href="{% url 'bookDetail' book.pk %}" class="btn btn-primary">Перейти</a>
+                    <a href="#" class="btn btn-danger">Удалить из избранного</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+        
+    </div>
+</div>
+
+{% endblock content %}

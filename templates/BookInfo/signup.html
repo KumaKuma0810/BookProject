@@ -11,33 +11,21 @@ style="background-image: url('/upload/BookInfo/knigi-fon-stil-vladstudio.jpg');"
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12 col-md-9 col-lg-7 col-xl-6">
         <div class="card" style="border-radius: 15px;">
-            <div class="card-body p-5">
+            <div class="card-body p-5 justify-content-center align-items-center">
             <h2 class="text-uppercase text-center mb-5">Создать аккаунт</h2>
             <form method="POST">
                 {% csrf_token %}
                 {{ form.as_p }}    
-                <button type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Регистрация</button>
+                <div class="col text-center">
+                  <button type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Регистрация</button>
+                </div>
+                
             </form>
             <p class="text-center text-muted mt-5 mb-0">Уже есть аккаунт? <a href="{% url 'signin'%}"
               class="fw-bold text-body"><u>Вход</u></a></p>
           </div>
         </div>
       </div>
-      {% if messages %}
-    {% for message in messages %}
-        {% if message.tags == 'error' %}
-        <div class="alert alert-danger" role="alert">
-            {{message}}
-        </div>
-        {% else %}
-        <div class="alert alert-{{message.tags}}" role="alert">
-            {{message}}
-        </div>
-        {% endif %}
-    
-        
-    {% endfor %}
-{% endif %}
     </div>
   </div>
 </div>

@@ -4,6 +4,9 @@
 
 {% block content %}
 <div class="container mt-5">
+    <div class="container mt-5 text-center container-search-img">
+        <img src="/upload/BookInfo/Oblozhka-6.jpg" alt="Описание картинки" class="rounded-circle img-search">
+    </div>
     <h1 class="text-center">Поиск книг</h1>
     <form>
         {{ form.as_p }}
@@ -22,7 +25,7 @@
                     <p class="card-text"> {{ b.description|truncatechars:150 }} </p>
                     <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <a href="{% url 'book_detail' b.id %}" type="button" class="btn btn-sm btn-outline-secondary"> Подробнее</a>
+                        <a href="{% url 'bookDetail' b.id %}" type="button" class="btn btn-sm btn-outline-secondary"> Подробнее</a>
                         
                         {% if user.is_authenticated %}
                         <button type="button" class="btn btn-sm btn-outline-secondary">В закладки</button>

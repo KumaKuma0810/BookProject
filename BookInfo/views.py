@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator 
+from django.contrib.auth import login, logout
 # from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 # from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -56,16 +57,6 @@ def BookDetail(request, pk):
         'book': book,
     })
 
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['comment_form'] = CommentsForm()
-    #     return context
-
-
-
-    return render(request, 'BookInfo/book_detail.html', {'book': book})
-
 def SearchBooks(request):
     form = SearchForm(request.GET)
     
@@ -88,9 +79,10 @@ def Signup(request):
 
         if form.is_valid():
             user = form.save()
+            login(request, user)
             messages.success(request, 'Account success!')
-            # login(request, user)
-            # return redirect('2')
+            
+            return redirect('bookList')
         else:
             messages.error(request, 'Error account!')
     else:
@@ -98,43 +90,29 @@ def Signup(request):
 
     return render(request, 'BookInfo/signup.html', {'form': form})
 
-
-
-def Login(request):
-    pass
-
 def Singin(request):
-    pass
+    if request.method == 'POST':
+        form = UserSignInForm(data=request.POST)
 
-# class BookCreateView(CreateView):
-#     model = Book
-#     template_name = 'BookInfo/book_add.html'
-#     fields = [
-#         'username', 
-#         'avtor', 
-#         'genre', 
-#         'year_of_publication', 
-#         'description', 
-#         'cover', 
-#         'date_added']
-#     book_url = reverse_lazy('book-add')
-    
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
 
-# class BookUpdateView(UpdateView):
-#     model = Book
-#     tempalate_name = 'BookInfo/book_form.html'
-#     fields = [
-#         'username', 
-#         'avtor', 
-#         'genre', 
-#         'year_of_publication', 
-#         'description', 
-#         'cover', 
-#         'date_added']
-#     success_url = reverse_lazy('book-edit')
+            return redirect('bookList')
+    else:
+        form = UserSignInForm()
+    return render(request, 'BookInfo/signin.html', {'form': form})
 
+def Profile(request):
 
-# class BookDeleteView(DeleteView):
-#     model = Book
-#     template_name = 'book_confirm_delete.html'
-#     success_url = reverse_lazy('book-delete')
+    return render(request, 'BookInfo/profile.html')
+
+def FavoritesBooks(request):    
+    books = Book.objects.all()
+
+    return render(request, 'BookInfo/favorites.html', {'books': books})
+
+def NavbarProfile(request):
+    profile = Userdb.objects.all()
+
+    return render(request, 'BookInfo/inc/nav.html', {'profile': profile})

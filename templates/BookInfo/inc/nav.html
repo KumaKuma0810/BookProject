@@ -1,30 +1,7 @@
-<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'book-list' %}">БиблиоГид</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        {% if uuser.is_authenticated %}
-        <li class="nav-item"><a href="#" class="nav-link">Моя Библиотека</a></li>
-        <li class="nav-item"><a href="{% url 'book-add' %}" class="nav-link">Добавить Книгу</a></li>
-        {% else %}
-        <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">О нас</a></li>
-        {% endif %}
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Поиск книг" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Поиск</button>
-      </form>
-    </div>
-  </div>
-</nav> -->
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <!-- Логотип или название сайта -->
-    <a class="navbar-brand" href="/">БиблиоГид</a>
+    <a class="navbar-brand" href="{% url 'bookList' %}">БиблиоГид</a>
     
     <!-- Кнопка для моб. версии -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,9 +10,10 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        
-        <li class="nav-item"><a href="#" class="nav-link">Моя Библиотека</a></li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item"><a href="{% url 'favorites' %}" class="nav-link">Моя Библиотека</a></li>
         <li class="nav-item"><a href="{% url 'bookAdd' %}" class="nav-link">Добавить книгу</a></li>  
+        {% endif %}
         <li class="nav-item"><a href="{% url 'search' %}" class="nav-link">Поиск</a></li>
         <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">О нас</a></li>
       </ul>
@@ -43,18 +21,22 @@
       <div class="ms-3">
         <!-- Если пользователь не зарегистрирован, отображается картинка по умолчанию -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
+            {% if request.user.is_authenticated %}
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">
+                        <img src="{{ profile.avatar.url }}" alt="{{ profile.username}}" class="rounded-circle" width="40" height="40">
+                    </a>
+                </li>
+            </ul>                        
+            {% else %}
           <li class="nav-item"><a href="{% url 'signup' %}" class="nav-link">Регистрация</a></li>
-          <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">Вход</a></li>
+          <li class="nav-item"><a href="{% url 'signin' %}" class="nav-link">Вход</a></li>
+
+
+          {% endif %}
           
         </ul>
-        <!-- Если пользователь зарегистрирован, можно будет отобразить его аватар, например: -->
-        <!-- <img src="[URL_к_аватару]" alt="User" class="rounded-circle" /> -->
-        <!-- {% if user.profile.avatar %}
-        <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="rounded-circle" />
-        {% else %}
-        <img src="/static/default_avatar.png" alt="Avatar" class="rounded-circle" />
-        {% endif %} -->
       </div>
     </div>
   </div>
