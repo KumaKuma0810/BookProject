@@ -66,6 +66,6 @@ class CommentsForm(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
-    query = forms.CharField(label='Поиск', required=False, max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    query = forms.CharField(label='', required=False, max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
 

@@ -5,8 +5,8 @@ from django.utils import timezone
 
 class Userdb(models.Model):                   # пользователь
     username = models.CharField(verbose_name='Имя пользователя', max_length=20)
-    phone = models.IntegerField(verbose_name='Номер телефона', blank=True)
-    date_birthday = models.DateField(verbose_name='Дата рождения')
+    # phone = models.IntegerField(verbose_name='Номер телефона', blank=True)
+    # date_birthday = models.DateField(verbose_name='Дата рождения')
     email = models.EmailField(verbose_name='Почта пользователя', max_length=255)
     avatar = models.ImageField(upload_to='upload/Users/Avatar/', verbose_name='Аватарка', blank=True, default='/upload/Users/Avatar/avatar_default.png')
 
@@ -76,6 +76,5 @@ class ReadListBook(models.Model):          # список чтения
 
     def __str__(self):
         return self.user
-
 
 

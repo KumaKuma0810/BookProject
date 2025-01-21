@@ -116,3 +116,4 @@ def NavbarProfile(request):
     profile = Userdb.objects.all()
 
     return render(request, 'BookInfo/inc/nav.html', {'profile': profile})
+

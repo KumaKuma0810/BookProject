@@ -81,3 +81,16 @@ header {
 .container-search-img {
     padding: 50px 0px;
 }
+
+.full-height {
+    min-height: 100vh; /* Высота блока на весь экран */
+    display: flex;
+    flex-direction: column; /* Вертикальная структура */
+  }
+  .content {
+    flex-grow: 1; /* Занимает всё оставшееся пространство */
+  }
+
+.mb-5-about {
+    padding: 50px 0px;
+  }

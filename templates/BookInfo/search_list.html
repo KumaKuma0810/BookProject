@@ -4,13 +4,15 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="container mt-5 text-center container-search-img">
+    <!-- <div class="container mt-5 text-center container-search-img">
         <img src="/upload/BookInfo/Oblozhka-6.jpg" alt="Описание картинки" class="rounded-circle img-search">
-    </div>
+    </div> -->
     <h1 class="text-center">Поиск книг</h1>
     <form>
         {{ form.as_p }}
-        <button class="btn btn-outline-success" type="submit">Поиск</button>
+        <div class="text-center">
+            <button class="btn btn-outline-success" type="submit">Поиск</button>
+        </div>
     </form>
 
     <div class="d-flex flex-nowrap container-main" id="book-list">
