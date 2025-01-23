@@ -103,17 +103,24 @@ def Singin(request):
         form = UserSignInForm()
     return render(request, 'BookInfo/signin.html', {'form': form})
 
-def Profile(request):
+def EditProfile(request):
+    if request.method == 'POST':
+        # получаем профиль пользователя 
+        form = ProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return render('bookList')
+    else:
+        form = ProfileForm(instance=request.user)
+    
+    return render(request, 'BookInfo/profile.html', {'form': form})
 
-    return render(request, 'BookInfo/profile.html')
+
+
+    return render(request, 'BookInfo/profile.html', {'profile': profile})
 
 def FavoritesBooks(request):    
     books = Book.objects.all()
 
     return render(request, 'BookInfo/favorites.html', {'books': books})
-
-def NavbarProfile(request):
-    profile = Userdb.objects.all()
-
-    return render(request, 'BookInfo/inc/nav.html', {'profile': profile})
 

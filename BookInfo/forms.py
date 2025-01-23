@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from django.contrib.auth.models import User
 
 from .models import *
@@ -26,8 +26,6 @@ class UserRegisterForm(UserCreationForm):
             'password2'
         )
 
-
-
 class AddBookForms(forms.ModelForm):
     
     class Meta:
@@ -49,9 +47,6 @@ class AddBookForms(forms.ModelForm):
             'cover': forms.FileInput(),
         }
 
-
-
-
 class CommentsForm(forms.ModelForm):
     class Meta:
         model = Review
@@ -62,10 +57,19 @@ class CommentsForm(forms.ModelForm):
         if 'parent' in self.fields:
             self.fields['parent'].required = False
 
-
-
-
 class SearchForm(forms.Form):
     query = forms.CharField(label='', required=False, max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
+class ProfileForm(UserChangeForm):
+    username = forms.CharField(label='Имя пользовтеля',  widget=forms.TextInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(label='Имя пользовтеля',  widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(label='Имя пользовтеля',  widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(label='Имя пользовтеля',  widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    birthday = forms.DateField(label='Имя пользовтеля',  widget=forms.DateInput(attrs={'class': 'form-control'}))
+    profile_picture = forms.ImageField(label='Аватар профиля',  widget=forms.FileInput(attrs={'class': 'form-control'}))
 
+    class Meta: 
+        model = Profile
+        fields = ['username', 'first_name', 'last_name', 'email', 'birthday', 'profile_picture']
+
+    

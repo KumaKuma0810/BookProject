@@ -1,21 +1,21 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
-
-
-class Userdb(models.Model):                   # пользователь
-    username = models.CharField(verbose_name='Имя пользователя', max_length=20)
-    # phone = models.IntegerField(verbose_name='Номер телефона', blank=True)
-    # date_birthday = models.DateField(verbose_name='Дата рождения')
-    email = models.EmailField(verbose_name='Почта пользователя', max_length=255)
-    avatar = models.ImageField(upload_to='upload/Users/Avatar/', verbose_name='Аватарка', blank=True, default='/upload/Users/Avatar/avatar_default.png')
+class Profile(models.Model):
+    username = models.CharField(max_length=255, null=False, blank=False)
+    first_name = models.CharField(max_length=255, null=False, blank=False)
+    last_name = models.CharField(max_length=255, null=False, blank=False)
+    email = models.EmailField(max_length=255, null=False, unique=True, blank=True)
+    birthday = models.DateField(null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='upload/Users/', blank=True, null=True, default='upload/Users/avatar_default.png')
 
     def __str__(self):
-        return self.username
-            
+        return f"{self.username}'s profile"
+
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        verbose_name = 'Профиль'
+        verbose_name_plural = 'Профили'
 
 
 class Book(models.Model):                   # книга
@@ -43,7 +43,7 @@ class Review(models.Model):                 # отзыв
     creation_at = models.DateTimeField(default=timezone.now, verbose_name='Дата создания', unique=False, blank=False)
     rating = models.PositiveIntegerField(choices=[(i, str(i)) for i in range(1, 6)])
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
-    username = models.ForeignKey(Userdb, on_delete=models.CASCADE, verbose_name='Пользователь')
+    username = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='Пользователь')
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='Книга')
 
     # def get_average_rating(self):

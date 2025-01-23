@@ -23,13 +23,22 @@ class ReadListBookAdmin(admin.ModelAdmin):
 
 
 
-class UserAdmin(admin.ModelAdmin):
+class ProfileAdmin(admin.ModelAdmin):
     list_display = (
         'username', 
-        'email'
+        'first_name', 
+        'last_name', 
+        'email', 
+        'birthday', 
+        'profile_picture'
     )
 
-    search_fields = ('username', 'email')
+    search_fields = ('username', 'first_name', 'last_name')
+
+    def display_image(self, obj):
+        if obj.profile_picture:
+            return format_html('<img src="{}" style="width: 100px; height: 100px; border: 1px solid #ccc;" />', obj.profile_picture.url)
+
 
 class BookAdmin(admin.ModelAdmin):
     list_display = (
@@ -50,5 +59,5 @@ class BookAdmin(admin.ModelAdmin):
 
 admin.site.register(Review, ReviewAdmin)
 admin.site.register(ReadListBook ,ReadListBookAdmin)
-admin.site.register(Userdb, UserAdmin)
+admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Book, BookAdmin)

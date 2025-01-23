@@ -13,7 +13,7 @@ urlpatterns = [
     # path('logout/', LogoutView, name='logout'),
     path('signup/', Signup, name='signup'),
     path('signin/', Singin, name='signin'),
-    path('profile/', Profile, name='profile'),
+    path('profile/', EditProfile, name='profile'),
     
 
     # path('book/<int:pk>/', BookDetailView(), name='book-detail'),

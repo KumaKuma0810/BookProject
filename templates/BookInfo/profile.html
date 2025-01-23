@@ -3,33 +3,16 @@
 {% block title %}Профиль {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <img src="path_to_avatar_image.jpg" class="card-img-top rounded-circle" alt="Аватар" style="width: 120px; height: 120px; margin: auto;">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Имя Фамилия</h5>
-                    <p class="card-text">Краткое описание о пользователе.</p>
-                    <a href="#" class="btn btn-primary">Редактировать профиль</a>
-                    <a href="#" class="btn btn-danger">Выйти </a>
-                </div>
-            </div>
+<div class="container edit-profile">
+    <form>
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <div class="text-center">
+            <button  class="btn btn-success" type="submit">Сохранить изменения</button>
         </div>
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Информация о пользователе</h5>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Email:</strong> user@example.com</li>
-                        <li class="list-group-item"><strong>Телефон:</strong> +1234567890</li>
-                        <li class="list-group-item"><strong>Дата рождения:</strong> 1 Января 2000</li>
-                        <li class="list-group-item"><strong>Адрес:</strong> Город, Улица, Дом</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+        
+    </form>
 </div>
 
 {% endblock content %}
