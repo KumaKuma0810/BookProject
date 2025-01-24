@@ -1,6 +1,8 @@
 from django.contrib import admin
-from .models import *
 from django.utils.html import format_html
+
+from .models import *
+
 
 class ReviewAdmin(admin.ModelAdmin):
     list_display = (
@@ -8,32 +10,23 @@ class ReviewAdmin(admin.ModelAdmin):
         'creation_at',
         'book'  
     )
-    list_filter = ('username', 'creation_at')
-
-    # def post_link(self, obj):
-    #     return mark_safe(f'<a href="{obj.book.get_absolute_url()}">{obj.book.username} </a> ')
-
 
 class ReadListBookAdmin(admin.ModelAdmin):
     list_display = (
-        'list_name',
+        'user',
+        'book'
     )
 
-    search_fields = ('list_name', 'list_name', 'books')
+    search_fields = ('list_name',)
 
 
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = (
-        'username', 
-        'first_name', 
-        'last_name', 
-        'email', 
+        'user',
         'birthday', 
         'profile_picture'
     )
-
-    search_fields = ('username', 'first_name', 'last_name')
 
     def display_image(self, obj):
         if obj.profile_picture:
@@ -58,6 +51,6 @@ class BookAdmin(admin.ModelAdmin):
     ordering = ('date_added',)
 
 admin.site.register(Review, ReviewAdmin)
-admin.site.register(ReadListBook ,ReadListBookAdmin)
+admin.site.register(Favorite ,ReadListBookAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Book, BookAdmin)

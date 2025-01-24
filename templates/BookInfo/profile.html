@@ -3,16 +3,26 @@
 {% block title %}Профиль {% endblock %}
 
 {% block content %}
-<div class="container edit-profile">
-    <form>
-        {% csrf_token %}
-        {{ form.as_p }}
-        
-        <div class="text-center">
-            <button  class="btn btn-success" type="submit">Сохранить изменения</button>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">Редактирование профиля</h1>
+        <div class="container text-center">
+            <img width="250" src="{{ user.profile.profile_picture.url}}" alt="Avatar" class="rounded">
         </div>
-        
-    </form>
-</div>
-
-{% endblock content %}
+        <form method="post" enctype="multipart/form-data" class="row g-3">
+            {% csrf_token %}
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                {{ user_form.as_p }}
+                {{ profile_form.as_p }}
+            </div>
+            <div class="col-md-2"></div>
+            
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            </div>
+            <div class="col-12 text-center">
+                <a href="{% url 'logout' %}" class="btn btn-danger">Выйти</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator 
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 # from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -8,6 +9,10 @@ from django.contrib import messages
 from .models import *
 from .forms import *
 
+@login_required
+def Logout(request):
+    logout(request)
+    return redirect('bookList')
 
 def About(request):
     return render(request, 'BookInfo/about.html')
@@ -70,9 +75,6 @@ def SearchBooks(request):
     })
 
 
-    
-    # return render(request, 'BookInfo/template_tag/sigin_main.html', {'form': form})
-
 def Signup(request):
     if request.method == 'POST':    
         form = UserRegisterForm(request.POST)
@@ -103,24 +105,25 @@ def Singin(request):
         form = UserSignInForm()
     return render(request, 'BookInfo/signin.html', {'form': form})
 
+@login_required
 def EditProfile(request):
-    if request.method == 'POST':
-        # получаем профиль пользователя 
-        form = ProfileForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return render('bookList')
+    if request.method == 'POST': 
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if user_form.is_valid and profile_form.is_valid:
+            user_form.save()
+            profile_form.save()
+            return redirect('/')
     else:
-        form = ProfileForm(instance=request.user)
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
+
+    return render(request, 'BookInfo/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+@login_required
+def FavoritesListBooks(request):    
+    favorites = Favorite.objects.filter(user=request.user)
     
-    return render(request, 'BookInfo/profile.html', {'form': form})
-
-
-
-    return render(request, 'BookInfo/profile.html', {'profile': profile})
-
-def FavoritesBooks(request):    
-    books = Book.objects.all()
-
-    return render(request, 'BookInfo/favorites.html', {'books': books})
+    return render(request, 'BookInfo/favorites.html', {'favorites': favorites})
 

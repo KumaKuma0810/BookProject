@@ -9,18 +9,20 @@
     <div class="row mt-4">
 
         <!-- Пример карточки товара -->
-    {% for book in books %}
+    {% for favorite in favorites %}
         <div class="col-md-4">
             <div class="card mb-4">
-                <img src="{{ book.cover.url }}" class="card-img-top" alt="{{ book.name_book}}">
+                <img src="{{ favorite.book.cover.url }}" class="card-img-top" alt="{{ book.name_book}}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ book.name_book }}</h5>
-                    <p class="card-text">{{ book.description }}</p>
-                    <a href="{% url 'bookDetail' book.pk %}" class="btn btn-primary">Перейти</a>
+                    <h5 class="card-title">{{ favorite.book.name_book }}</h5>
+                    <p class="card-text">{{ favorite.book.description }}</p>
+                    <a href="{% url 'bookDetail' favorite.book.pk %}" class="btn btn-primary">Перейти</a>
                     <a href="#" class="btn btn-danger">Удалить из избранного</a>
                 </div>
             </div>
         </div>
+    {% empty %}
+        <p>Ваш спискок избранного пуст. </p>
     {% endfor %}
         
     </div>

@@ -60,16 +60,26 @@ class CommentsForm(forms.ModelForm):
 class SearchForm(forms.Form):
     query = forms.CharField(label='', required=False, max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
-class ProfileForm(UserChangeForm):
-    username = forms.CharField(label='Имя пользовтеля',  widget=forms.TextInput(attrs={'class': 'form-control'}))
-    first_name = forms.CharField(label='Имя пользовтеля',  widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_name = forms.CharField(label='Имя пользовтеля',  widget=forms.TextInput(attrs={'class': 'form-control'}))
-    email = forms.EmailField(label='Имя пользовтеля',  widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    birthday = forms.DateField(label='Имя пользовтеля',  widget=forms.DateInput(attrs={'class': 'form-control'}))
-    profile_picture = forms.ImageField(label='Аватар профиля',  widget=forms.FileInput(attrs={'class': 'form-control'}))
 
-    class Meta: 
-        model = Profile
-        fields = ['username', 'first_name', 'last_name', 'email', 'birthday', 'profile_picture']
+class UserUpdateForm(forms.ModelForm):
+    first_name = forms.CharField(label='Имя',  widget=forms.TextInput(attrs={"type":"text", "id":"textInput", "class":"form-control"}))
+    last_name = forms.CharField(label='Фамилия ',  widget=forms.TextInput(attrs={"type":"text", "id":"textInput", "class":"form-control"}))
+    email = forms.CharField(label='Почта',  widget=forms.TextInput(attrs={ "type":"email" , "id":"exampleInputEmail1", "aria-describedby":"emailHelp", "placeholder":"Enter email", 'class': 'form-control'}))
+   
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
 
+
+class ProfileUpdateForm(forms.ModelForm):
+    profile_picture = forms.ImageField(label='Аватарка',widget=forms.FileInput(attrs={"type":"file", "class":"custom-file-input", "id":"validatedCustomFile"}))
+    birthday = forms.DateField(label='Дата рождения', widget=forms.DateInput(attrs={"type":"date", "id":"dateInput", "class":"form-control"}))
     
+    class Meta:
+        model = Profile
+        fields = ['birthday', 'profile_picture']
+    
+class FavoriteForm(forms.ModelForm):
+    class Meta:
+        model = Favorite
+        fields = ['book']

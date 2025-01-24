@@ -2,16 +2,13 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-class Profile(models.Model):
-    username = models.CharField(max_length=255, null=False, blank=False)
-    first_name = models.CharField(max_length=255, null=False, blank=False)
-    last_name = models.CharField(max_length=255, null=False, blank=False)
-    email = models.EmailField(max_length=255, null=False, unique=True, blank=True)
+class Profile(models.Model):                #Профиль пользователя
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     birthday = models.DateField(null=True, blank=True)
-    profile_picture = models.ImageField(upload_to='upload/Users/', blank=True, null=True, default='upload/Users/avatar_default.png')
+    profile_picture = models.ImageField(upload_to='upload/Users/', default='upload/Users/avatar_default.png', blank=False)
 
     def __str__(self):
-        return f"{self.username}'s profile"
+        return f"{self.user.username}'s profile"
 
     class Meta:
         verbose_name = 'Профиль'
@@ -37,7 +34,6 @@ class Book(models.Model):                   # книга
         return self.name_book
 
 
-
 class Review(models.Model):                 # отзыв
     text = models.TextField(verbose_name='Текст отзыва')
     creation_at = models.DateTimeField(default=timezone.now, verbose_name='Дата создания', unique=False, blank=False)
@@ -45,15 +41,6 @@ class Review(models.Model):                 # отзыв
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
     username = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='Пользователь')
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='Книга')
-
-    # def get_average_rating(self):
-    #     ratings = self.book.rating.all()
-
-    #     if ratings:
-    #         total_score = sum([self.rating for rating in ratings])
-
-    #         return total_score / len(ratings)
-    #     return 0
 
     def __str__(self):
         return f'Comments by {self.username.username} on {self.book.name_book}'
@@ -68,13 +55,11 @@ class Review(models.Model):                 # отзыв
         ordering = ['creation_at']
 
 
-
-class ReadListBook(models.Model):          # список чтения
-    list_name = models.CharField(verbose_name='список книг', max_length=20)
-    user = models.CharField(verbose_name='пользователь', max_length=10)
-    books = models.ForeignKey(Book, on_delete=models.CASCADE)
+class Favorite(models.Model):          # список чтения
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user
+        return f'{self.user.username} - {self.book.name_book}'
 
 
