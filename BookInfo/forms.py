@@ -79,7 +79,3 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
         fields = ['birthday', 'profile_picture']
     
-class FavoriteForm(forms.ModelForm):
-    class Meta:
-        model = Favorite
-        fields = ['book']

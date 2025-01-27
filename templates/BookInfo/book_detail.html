@@ -17,22 +17,14 @@
                 <p><strong>Автор:</strong> {{ book.avtor }} </p>
                 <p><strong>Жанр:</strong> {{ book.genre }} </p>
                 <p><strong>Год публикации:</strong> {{ book.year_of_publication }}</p>
-
-                <!-- Рейтинг -->
-                <!-- <div class="rating">
-                    <span>⭐</span>
-                    <span>⭐</span>
-                    <span>⭐</span>
-                    <span>⭐</span>
-                    <span>☆</span>
-                    (4.0 / 5) | 120 отзывов
-                </div> -->
-
-                <!-- Краткое описание -->
-                 <br>
+                <br>
                 <h5>Описание</h5>
                 <p> {{ book.description }}</p>
-                <a class="btn btn-primary">Добавить в избранное </a>
+                {% if book.id not in favorites %}
+                    <a class="btn btn-sm btn-outline-secondary"> Уже добавлена </a>
+                {% else %}
+                    <a href="{% url 'addFavorites' book.id %}" type="button" class="btn btn-sm btn-outline-secondary"> В закладки</a>
+                {% endif %}
             </div>
         </div>
         <hr>

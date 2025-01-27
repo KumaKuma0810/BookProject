@@ -24,7 +24,11 @@ def BookList(request):
     page_number = request.GET.get('page')  # Получаем номер страницы из URL
     page_obj = paginator.get_page(page_number)  # Получаем объекты для текущей страницы
 
-    return render(request, 'BookInfo/book_list.html', {'object_list': object_list, 'page_obj': page_obj})
+    return render(request, 'BookInfo/book_list.html', {
+        'object_list': object_list, 
+        'page_obj': page_obj,
+        }
+    )
 
 def BookAdd(request):
     if request.method == 'POST':
@@ -39,6 +43,7 @@ def BookAdd(request):
 def BookDetail(request, pk):
     # post_book = Book.objects.filter(pk=id)
     book = get_object_or_404(Book, pk=pk)
+    favorites = Favorite.objects.filter(user=request.user).select_related('book')
     rating_book = Review.objects.all()
     
     if request.method == 'POST':
@@ -60,6 +65,7 @@ def BookDetail(request, pk):
     return render(request, 'BookInfo/book_detail.html', {
         'rating_book': rating_book,
         'book': book,
+        'favorites': favorites,
     })
 
 def SearchBooks(request):
@@ -121,9 +127,29 @@ def EditProfile(request):
 
     return render(request, 'BookInfo/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
+
+# Favorite
 @login_required
 def FavoritesListBooks(request):    
-    favorites = Favorite.objects.filter(user=request.user)
-    
+    favorites = Favorite.objects.filter(user=request.user).select_related('book')
     return render(request, 'BookInfo/favorites.html', {'favorites': favorites})
+
+
+@login_required
+def AddFavorites(request, pk):
+    book = get_object_or_404(Book, id=pk)
+    # Проверяем, есть ли уже эта книга в избранном у пользователя
+    favorite, created = Favorite.objects.get_or_create(user=request.user, book=book)
+    return redirect('bookList')
+
+
+
+
+@login_required
+def RemoveFromFavorites(request, pk):
+    book, created = get_object_or_404(Book, id=pk)
+    favorite = Favorite.objects.filter(user=request.user, book=book)
+
+    if favorite.exists:
+        favorite.delete()
 

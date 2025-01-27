@@ -7,7 +7,11 @@ urlpatterns = [
     path('about/', About, name='about'),
     path('book/<int:pk>/', BookDetail, name='bookDetail'),
     path('search/', SearchBooks, name='search'),
-    path('favorites/>', FavoritesListBooks, name='favorites'),  
+
+    path('favorites/', FavoritesListBooks, name='favorites'), 
+    path('favorites/<int:pk>', AddFavorites, name='addFavorites'),  
+    # path('favorites/<int:pk>', RemoveFromFavorites, name='removeFromFavorites'),  
+     
     path('signup/', Signup, name='signup'),
     path('signin/', Singin, name='signin'),
     path('logout/', Logout, name='logout'),

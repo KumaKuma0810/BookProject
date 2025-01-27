@@ -56,10 +56,12 @@ class Review(models.Model):                 # отзыв
 
 
 class Favorite(models.Model):          # список чтения
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='fav_user')
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-
+    
     def __str__(self):
         return f'{self.user.username} - {self.book.name_book}'
 
+    class Meta:
+        unique_together = ('user', 'book')
 
