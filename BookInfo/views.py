@@ -14,8 +14,10 @@ def Logout(request):
     logout(request)
     return redirect('bookList')
 
+
 def About(request):
     return render(request, 'BookInfo/about.html')
+
 
 def BookList(request): 
     object_list = Book.objects.all()  # Получаем все объекты модели
@@ -30,6 +32,7 @@ def BookList(request):
         }
     )
 
+
 def BookAdd(request):
     if request.method == 'POST':
         form = AddBookForms(request.POST, request.FILES)
@@ -40,33 +43,16 @@ def BookAdd(request):
         form = AddBookForms()
     return render(request, 'BookInfo/book_add.html', {'form': form})
 
-def BookDetail(request, pk):
-    # post_book = Book.objects.filter(pk=id)
-    book = get_object_or_404(Book, pk=pk)
-    favorites = Favorite.objects.filter(user=request.user).select_related('book')
-    rating_book = Review.objects.all()
-    
-    if request.method == 'POST':
-        book_form = CommentsForm(request.POST)
 
-        if book_form.is_valid():
-            comment = book_form.save(commit=False)
-            comment.username = request.user
-            comment.book = book_form
-            parent_comm = request.POST.get('parent')
-            
-            if parent_comm:
-                comment.parent = book_form.objects.get(id=parent_comm)
-            comment.save()
-            return redirect('post_detail', pk=pk)
-    else:
-        book_form = CommentsForm()
+def BookDetail(request, pk):
+    book = get_object_or_404(Book, id=pk)
+    favorite, created = Favorite.objects.get_or_create(user=request.user, book=book)
 
     return render(request, 'BookInfo/book_detail.html', {
-        'rating_book': rating_book,
         'book': book,
-        'favorites': favorites,
+        'created': created,
     })
+
 
 def SearchBooks(request):
     form = SearchForm(request.GET)
@@ -98,6 +84,7 @@ def Signup(request):
 
     return render(request, 'BookInfo/signup.html', {'form': form})
 
+
 def Singin(request):
     if request.method == 'POST':
         form = UserSignInForm(data=request.POST)
@@ -110,6 +97,7 @@ def Singin(request):
     else:
         form = UserSignInForm()
     return render(request, 'BookInfo/signin.html', {'form': form})
+
 
 @login_required
 def EditProfile(request):
@@ -127,7 +115,6 @@ def EditProfile(request):
 
     return render(request, 'BookInfo/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
-
 # Favorite
 @login_required
 def FavoritesListBooks(request):    
@@ -140,16 +127,10 @@ def AddFavorites(request, pk):
     book = get_object_or_404(Book, id=pk)
     # Проверяем, есть ли уже эта книга в избранном у пользователя
     favorite, created = Favorite.objects.get_or_create(user=request.user, book=book)
-    return redirect('bookList')
-
-
-
+    return redirect('favorites')
 
 @login_required
-def RemoveFromFavorites(request, pk):
-    book, created = get_object_or_404(Book, id=pk)
-    favorite = Favorite.objects.filter(user=request.user, book=book)
-
-    if favorite.exists:
-        favorite.delete()
-
+def RemoveFromFavorites(request, id):
+    favorite = get_object_or_404(Favorite, user=request.user, book_id=id)
+    favorite.delete()
+    return redirect('favorites')

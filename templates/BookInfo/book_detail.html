@@ -11,7 +11,6 @@
             <div class="col-md-4">
                 <img src="{{ book.cover.url }}" alt="Обложка книги" class="book-cover rounded" width="400px">
             </div>
-            <!-- Информация о книге -->
             <div class="col-md-8">
                 <h2>{{ book.name_book }}</h2>
                 <p><strong>Автор:</strong> {{ book.avtor }} </p>
@@ -20,13 +19,17 @@
                 <br>
                 <h5>Описание</h5>
                 <p> {{ book.description }}</p>
-                {% if book.id not in favorites %}
-                    <a class="btn btn-sm btn-outline-secondary"> Уже добавлена </a>
-                {% else %}
-                    <a href="{% url 'addFavorites' book.id %}" type="button" class="btn btn-sm btn-outline-secondary"> В закладки</a>
+                {% if user.is_authenticated %}
+                    {% if created %}
+                        <a href="{% url 'addFavorites' book.id %}" type="button" class="btn btn-sm btn-outline-secondary">Добавить в избранное</a>
+                    {% else %}
+                        <a href="{% url 'addFavorites' book.id %}" type="button" class="btn btn-sm disabled">Уже в избранном</a>
+                        <a href="{% url 'removeFromFavorites' book.id %}" type="button" class="btn btn-sm btn-outline-secondary">Удалить из избранного</a>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
+        {% if user.is_authenticated %}
         <hr>
         <!-- форма для отзывов -->
         <div class="container mt-5">
@@ -67,7 +70,7 @@
         {% endfor %}
         
     </div>
-
+    {% endif %}
 
 
 {% endblock content %}

@@ -10,7 +10,7 @@ urlpatterns = [
 
     path('favorites/', FavoritesListBooks, name='favorites'), 
     path('favorites/<int:pk>', AddFavorites, name='addFavorites'),  
-    # path('favorites/<int:pk>', RemoveFromFavorites, name='removeFromFavorites'),  
+    path('delete_book/<int:id>', RemoveFromFavorites, name='removeFromFavorites'),  
      
     path('signup/', Signup, name='signup'),
     path('signin/', Singin, name='signin'),

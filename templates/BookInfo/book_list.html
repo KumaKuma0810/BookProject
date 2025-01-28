@@ -27,13 +27,13 @@
             <div class="card shadow-sm">
             <img src="{{ obj.cover.url }}" alt="{{ book.name_book }}" class="card-img-top" width="100%" height="355">
             <div class="card-body">
-                <h4>{{ obj.name_book }} </h4>
+                <h4> <a href="{% url 'bookDetail' obj.id %}"> {{ obj.name_book }} </h4></a>
                 <p class="card-text"> {{ obj.description|truncatechars:150 }} </p>
                 <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                <a href="{% url 'bookDetail' obj.id %}" type="button" class="btn btn-sm btn-outline-secondary"> Подробнее</a>    
-                </div>
-                <small class="text-body-secondary"> {{ obj.date_added }}</small>
+                    <div class="btn-group">
+                        <a href="{% url 'bookDetail' obj.pk %}" type="button" class="btn btn-sm btn-outline-secondary"> Подробнее</a>    
+                    </div>
+                    <small class="text-body-secondary"> {{ obj.date_added }}</small>
                 </div>
             </div>
             </div>
@@ -42,25 +42,6 @@
         </div>
     </div>
 </div>
-<!-- <div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; Первая</a>
-            <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
-        {% endif %}
-
-        <span class="current">
-            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
-        {% endif %}
-    </span>
-</div> -->
-
-
 <nav aria-label="...">
     <ul class="pagination justify-content-center">
         {% for p in page_obj.paginator.page_range %}
