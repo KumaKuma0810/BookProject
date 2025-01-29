@@ -34,20 +34,15 @@ class Book(models.Model):                   # книга
         return self.name_book
 
 
-class Review(models.Model):                 # отзыв
+class Comment(models.Model):                 # отзыв
     text = models.TextField(verbose_name='Текст отзыва')
     creation_at = models.DateTimeField(default=timezone.now, verbose_name='Дата создания', unique=False, blank=False)
-    rating = models.PositiveIntegerField(choices=[(i, str(i)) for i in range(1, 6)])
-    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
-    username = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='Пользователь')
+    username = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='Книга')
 
     def __str__(self):
         return f'Comments by {self.username.username} on {self.book.name_book}'
-
-    def get_replies(self):
-        return self.get_replies.all().order_by('created_at')
-
+        
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'

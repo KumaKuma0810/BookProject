@@ -4,7 +4,7 @@ from django.utils.html import format_html
 from .models import *
 
 
-class ReviewAdmin(admin.ModelAdmin):
+class CommentAdmin(admin.ModelAdmin):
     list_display = (
         'username',
         'creation_at',
@@ -50,7 +50,7 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = ('avtor', 'genre', 'date_added')
     ordering = ('date_added',)
 
-admin.site.register(Review, ReviewAdmin)
+admin.site.register(Comment, CommentAdmin)
 admin.site.register(Favorite ,ReadListBookAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Book, BookAdmin)

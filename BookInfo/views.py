@@ -46,11 +46,30 @@ def BookAdd(request):
 
 def BookDetail(request, pk):
     book = get_object_or_404(Book, id=pk)
-    favorite, created = Favorite.objects.get_or_create(user=request.user, book=book)
+
+    if request.user.is_authenticated:
+        favorite, created = Favorite.objects.get_or_create(user=request.user, book=book)
+    else:
+        created = False
+
+    if request.method == 'POST':
+        form = CommentsForm(request.POST)
+
+        if form.is_valid():
+            comments = form.save(commit=False)
+            comments.book = book.name_book
+            comments.username = request.user.username
+            comments.save()
+            return redirect('book_detail', book=book.id)
+    else:
+        form = CommentsForm()
+
 
     return render(request, 'BookInfo/book_detail.html', {
         'book': book,
         'created': created,
+        'form': form,
+        # 'comments': comments,
     })
 
 

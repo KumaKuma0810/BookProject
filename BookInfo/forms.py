@@ -48,14 +48,12 @@ class AddBookForms(forms.ModelForm):
         }
 
 class CommentsForm(forms.ModelForm):
-    class Meta:
-        model = Review
-        fields = ['text', 'creation_at', 'rating', 'username', 'book', 'parent']
+    text = forms.CharField(label='Комментарий', widget=forms.TextInput(attrs={'class':'form-control', 'rows':'2', 'placeholder': 'Добавьте Ваш комментарий'}))
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if 'parent' in self.fields:
-            self.fields['parent'].required = False
+    class Meta:
+        model = Comment
+        fields = ['text']
+
 
 class SearchForm(forms.Form):
     query = forms.CharField(label='', required=False, max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))

@@ -26,6 +26,8 @@
                         <a href="{% url 'addFavorites' book.id %}" type="button" class="btn btn-sm disabled">Уже в избранном</a>
                         <a href="{% url 'removeFromFavorites' book.id %}" type="button" class="btn btn-sm btn-outline-secondary">Удалить из избранного</a>
                     {% endif %}
+                {% else %}
+                    <a href="{% url 'bookList' %}" type="button" class="btn btn-sm btn-outline-secondary">На главную</a>
                 {% endif %}
             </div>
         </div>
@@ -34,43 +36,25 @@
         <!-- форма для отзывов -->
         <div class="container mt-5">
             <h1 class="text-center">Оставьте комментарий</h1>
-            <form>
-                <div class="mb-3">
-                    <label for="name" class="form-label">Ваше имя</label>
-                    <input type="text" class="form-control" id="name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Ваша электронная почта</label>
-                    <input type="email" class="form-control" id="email" required>
-                </div>
-                <div class="mb-3">
-                    <label for="comment" class="form-label">Ваш комментарий</label>
-                    <textarea class="form-control" id="comment" rows="3" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-success">Отправить комментарий</button>
-            </form>
+            {% csrf_token %} 
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Отправить</button>
         </div>
-        {% for comment in rating_book %}
-        <div class="container-fluid container-feedback">
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-2">
-                        <img src="{{ comment.username.avatar.url }}" class="img-fluid rounded-start" alt="Аватар">
-                    </div>
-                    <div class="col-md-10">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ comment.username }}</h5>
-                            <p class="card-text"><small class="text-muted">{{ comment.create_at }}</small></p>
-                            <p class="card-text">{{ comment.text }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="container mt-5">
+            <h2>Комментарии</h2>
+            <ul>
+                {% for comment in comments %}
+                    <li>
+                        <strong>{{ comment.author }}</strong> ({{ comment.created_at }}):
+                        <p>{{ comment.text }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
-        {% endfor %}
         
+        {% endif %}        
     </div>
-    {% endif %}
+
 
 
 {% endblock content %}
