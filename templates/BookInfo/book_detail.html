@@ -31,30 +31,82 @@
                 {% endif %}
             </div>
         </div>
-        {% if user.is_authenticated %}
         <hr>
         <!-- форма для отзывов -->
-        <div class="container mt-5">
-            <h1 class="text-center">Оставьте комментарий</h1>
-            {% csrf_token %} 
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Отправить</button>
-        </div>
-        <div class="container mt-5">
+        <div class="container mt-12">
             <h2>Комментарии</h2>
-            <ul>
-                {% for comment in comments %}
-                    <li>
-                        <strong>{{ comment.author }}</strong> ({{ comment.created_at }}):
-                        <p>{{ comment.text }}</p>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
         
-        {% endif %}        
-    </div>
 
+    <!-- Список комментариев -->
+    <div class="mt-4">
+        {% for comment in comments %}
+            <div class="card mb-3 comment-card">
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Аватарка (левая колонка) -->
+                        <div class="col-auto">
+                            <img src="{{ user.profile.profile_picture.url }}" 
+                                 alt="Аватарка" 
+                                 class="rounded" 
+                                 width="130" height="130">
+                        </div>
+
+                        <!-- Текст комментария (правая колонка) -->
+                        <div class="col">
+                            <!-- Имя автора и дата -->
+                            <h5 class="card-title mb-1">{{ comment.author.username }}</h5>
+                            <small class="text-muted">{{ comment.created_at|date:"d M Y H:i" }}</small>
+
+                            <!-- Текст комментария -->
+                            <p class="card-text mt-2">{{ comment.text }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="alert alert-info">
+                Пока нет комментариев. Будьте первым!
+            </div>
+        {% endfor %}
+    </div>
+    {% if request.user.is_authenticated %}
+    <div class="card">
+        <div class="row g-0 comment-card">
+            <div class="col-5 col-sm-2 text-center">
+                <img src="{{ user.profile.profile_picture.url }}" class="rounded" alt="card-horizontal-image" width="130" height="130">
+            </div>
+            <div class="col-7 col-sm-10">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <textarea name="text" class="form-control" rows="3" placeholder="Ваш комментарий..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info mt-4">
+        Чтобы оставить комментарий, <a href="{% url 'signin' %}">войдите</a> или <a href="{% url 'signup' %}">зарегистрируйтесь</a>.
+    </div>
+    {% endif %}
+
+
+  
+</div>
 
 
 {% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+         

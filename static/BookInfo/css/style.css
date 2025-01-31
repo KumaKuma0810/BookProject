@@ -99,3 +99,7 @@ a {
     outline: none;
     text-decoration: none;
 }
+
+.comment-card {
+    padding: 30px 0px;
+}

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Profile(models.Model):                #Профиль пользователя
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birthday = models.DateField(null=True, blank=True)
-    profile_picture = models.ImageField(upload_to='upload/Users/', default='upload/Users/avatar_default.png', blank=False)
+    profile_picture = models.ImageField(upload_to='upload/Users/', default='upload/Users/avatar_default.png', blank=False, null=True)
 
     def __str__(self):
         return f"{self.user.username}'s profile"
@@ -36,18 +36,17 @@ class Book(models.Model):                   # книга
 
 class Comment(models.Model):                 # отзыв
     text = models.TextField(verbose_name='Текст отзыва')
-    creation_at = models.DateTimeField(default=timezone.now, verbose_name='Дата создания', unique=False, blank=False)
+    creation_at = models.DateTimeField(default=timezone.now, verbose_name='Дата создания', unique=False)
     username = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='Книга')
-
+    
     def __str__(self):
         return f'Comments by {self.username.username} on {self.book.name_book}'
-        
+
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
-        unique_together = ('book', 'username')  # Один пользователь может оценить продукт только один раз
-        ordering = ['creation_at']
+        ordering = ['-creation_at']
 
 
 class Favorite(models.Model):          # список чтения

@@ -44,8 +44,8 @@ def BookAdd(request):
     return render(request, 'BookInfo/book_add.html', {'form': form})
 
 
-def BookDetail(request, pk):
-    book = get_object_or_404(Book, id=pk)
+def BookDetail(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
 
     if request.user.is_authenticated:
         favorite, created = Favorite.objects.get_or_create(user=request.user, book=book)
@@ -54,22 +54,24 @@ def BookDetail(request, pk):
 
     if request.method == 'POST':
         form = CommentsForm(request.POST)
-
         if form.is_valid():
-            comments = form.save(commit=False)
-            comments.book = book.name_book
-            comments.username = request.user.username
-            comments.save()
-            return redirect('book_detail', book=book.id)
+            comment, created = Comment.objects.get_or_create(
+                book=book,
+                username=request.user,
+                text=form.cleaned_data['text']
+            )
+           
+            return redirect('bookDetail', book_id=book.id)
     else:
         form = CommentsForm()
-
+    
+    comments = Comment.objects.filter(book=book)
 
     return render(request, 'BookInfo/book_detail.html', {
         'book': book,
         'created': created,
         'form': form,
-        # 'comments': comments,
+        'comments': comments
     })
 
 
@@ -93,8 +95,14 @@ def Signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, 'Account success!')
-            
+
+            if hasattr(user, 'profile'):
+                user.profile.profile_picture = request.user.profile.profile_picture
+                user.profile.birthday = request.user.profile.birthday
+                user.profile.save()
+            else: 
+                Profile.objects.create(user=user)
+
             return redirect('bookList')
         else:
             messages.error(request, 'Error account!')
@@ -122,15 +130,18 @@ def Singin(request):
 def EditProfile(request):
     if request.method == 'POST': 
         user_form = UserUpdateForm(request.POST, instance=request.user)
-        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        profile_form = ProfileUpdateForm(request.POST, request.FILES)
 
         if user_form.is_valid and profile_form.is_valid:
+            user_form.user = request.user.username
+            # profile_form.birthday = request.user
+            # profile_form.profile_picture = request.user
+            
             user_form.save()
             profile_form.save()
-            return redirect('/')
     else:
         user_form = UserUpdateForm(instance=request.user)
-        profile_form = ProfileUpdateForm(instance=request.user.profile)
+        profile_form = ProfileUpdateForm(instance=request.user)
 
     return render(request, 'BookInfo/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 

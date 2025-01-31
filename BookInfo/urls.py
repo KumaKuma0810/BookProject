@@ -5,7 +5,7 @@ urlpatterns = [
     path('', BookList, name='bookList'),
     path('bookAdd/', BookAdd, name='bookAdd'),
     path('about/', About, name='about'),
-    path('book/<int:pk>/', BookDetail, name='bookDetail'),
+    path('book/<int:book_id>/', BookDetail, name='bookDetail'),
     path('search/', SearchBooks, name='search'),
 
     path('favorites/', FavoritesListBooks, name='favorites'), 

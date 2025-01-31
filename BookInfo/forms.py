@@ -48,8 +48,6 @@ class AddBookForms(forms.ModelForm):
         }
 
 class CommentsForm(forms.ModelForm):
-    text = forms.CharField(label='Комментарий', widget=forms.TextInput(attrs={'class':'form-control', 'rows':'2', 'placeholder': 'Добавьте Ваш комментарий'}))
-
     class Meta:
         model = Comment
         fields = ['text']
@@ -61,12 +59,11 @@ class SearchForm(forms.Form):
 
 class UserUpdateForm(forms.ModelForm):
     first_name = forms.CharField(label='Имя',  widget=forms.TextInput(attrs={"type":"text", "id":"textInput", "class":"form-control"}))
-    last_name = forms.CharField(label='Фамилия ',  widget=forms.TextInput(attrs={"type":"text", "id":"textInput", "class":"form-control"}))
     email = forms.CharField(label='Почта',  widget=forms.TextInput(attrs={ "type":"email" , "id":"exampleInputEmail1", "aria-describedby":"emailHelp", "placeholder":"Enter email", 'class': 'form-control'}))
    
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['first_name', 'email']
 
 
 class ProfileUpdateForm(forms.ModelForm):
