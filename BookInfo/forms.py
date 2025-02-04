@@ -58,18 +58,18 @@ class SearchForm(forms.Form):
 
 
 class UserUpdateForm(forms.ModelForm):
-    first_name = forms.CharField(label='Имя',  widget=forms.TextInput(attrs={"type":"text", "id":"textInput", "class":"form-control"}))
+    username = forms.CharField(label='Имя',  widget=forms.TextInput(attrs={"type":"text", "id":"textInput", "class":"form-control"}))
     email = forms.CharField(label='Почта',  widget=forms.TextInput(attrs={ "type":"email" , "id":"exampleInputEmail1", "aria-describedby":"emailHelp", "placeholder":"Enter email", 'class': 'form-control'}))
    
     class Meta:
         model = User
-        fields = ['first_name', 'email']
+        fields = ['username', 'email']
 
 
 class ProfileUpdateForm(forms.ModelForm):
     profile_picture = forms.ImageField(label='Аватарка',widget=forms.FileInput(attrs={"type":"file", "class":"custom-file-input", "id":"validatedCustomFile"}))
     birthday = forms.DateField(label='Дата рождения', widget=forms.DateInput(attrs={"type":"date", "id":"dateInput", "class":"form-control"}))
-    
+
     class Meta:
         model = Profile
         fields = ['birthday', 'profile_picture']

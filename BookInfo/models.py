@@ -6,6 +6,7 @@ class Profile(models.Model):                #Профиль пользовате
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birthday = models.DateField(null=True, blank=True)
     profile_picture = models.ImageField(upload_to='upload/Users/', default='upload/Users/avatar_default.png', blank=False, null=True)
+    
 
     def __str__(self):
         return f"{self.user.username}'s profile"
@@ -39,7 +40,7 @@ class Comment(models.Model):                 # отзыв
     creation_at = models.DateTimeField(default=timezone.now, verbose_name='Дата создания', unique=False)
     username = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='Книга')
-    
+
     def __str__(self):
         return f'Comments by {self.username.username} on {self.book.name_book}'
 

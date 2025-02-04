@@ -46,6 +46,7 @@ def BookAdd(request):
 
 def BookDetail(request, book_id):
     book = get_object_or_404(Book, id=book_id)
+    comments = Comment.objects.filter(book=book)
 
     if request.user.is_authenticated:
         favorite, created = Favorite.objects.get_or_create(user=request.user, book=book)
@@ -60,12 +61,12 @@ def BookDetail(request, book_id):
                 username=request.user,
                 text=form.cleaned_data['text']
             )
+
            
             return redirect('bookDetail', book_id=book.id)
     else:
         form = CommentsForm()
-    
-    comments = Comment.objects.filter(book=book)
+
 
     return render(request, 'BookInfo/book_detail.html', {
         'book': book,
@@ -73,6 +74,14 @@ def BookDetail(request, book_id):
         'form': form,
         'comments': comments
     })
+
+def RemoveComment(request, comm_id):
+    comment = get_object_or_404(Comment, id=comm_id)
+    book = get_object_or_404(Book, id=book_id)
+    
+    if request.user != comment.user and not request.user.is_superuser:
+        comment.delete()
+        return redirect('bookDetail', book_id=book.id)
 
 
 def SearchBooks(request):
@@ -94,6 +103,7 @@ def Signup(request):
 
         if form.is_valid():
             user = form.save()
+            Profile.objects.create(user=user)
             login(request, user)
 
             if hasattr(user, 'profile'):
@@ -130,18 +140,14 @@ def Singin(request):
 def EditProfile(request):
     if request.method == 'POST': 
         user_form = UserUpdateForm(request.POST, instance=request.user)
-        profile_form = ProfileUpdateForm(request.POST, request.FILES)
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
 
-        if user_form.is_valid and profile_form.is_valid:
-            user_form.user = request.user.username
-            # profile_form.birthday = request.user
-            # profile_form.profile_picture = request.user
-            
+        if user_form.is_valid() and profile_form.is_valid():            
             user_form.save()
             profile_form.save()
     else:
         user_form = UserUpdateForm(instance=request.user)
-        profile_form = ProfileUpdateForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
 
     return render(request, 'BookInfo/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 

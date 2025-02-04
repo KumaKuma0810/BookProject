@@ -12,13 +12,19 @@
             {% csrf_token %}
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                {{ user_form.as_p }}
-                {{ profile_form.as_p }}
+                <form>
+                    {{ user_form.as_p }}
+                    {{ profile_form.as_p }}
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                    </div>
+                </form>
+                
             </div>
             <div class="col-md-2"></div>
             
             <div class="col-12 text-center">
-                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                
             </div>
             <div class="col-12 text-center">
                 <a href="{% url 'logout' %}" class="btn btn-danger">Выйти</a>

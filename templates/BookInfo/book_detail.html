@@ -45,17 +45,14 @@
                     <div class="row">
                         <!-- Аватарка (левая колонка) -->
                         <div class="col-auto">
-                            <img src="{{ user.profile.profile_picture.url }}" 
-                                 alt="Аватарка" 
-                                 class="rounded" 
-                                 width="130" height="130">
+                            <img src="{{ comment.username.profile.profile_picture.url }}" alt="Аватарка" class="rounded" width="130" height="130">
                         </div>
 
                         <!-- Текст комментария (правая колонка) -->
                         <div class="col">
                             <!-- Имя автора и дата -->
                             <h5 class="card-title mb-1">{{ comment.author.username }}</h5>
-                            <small class="text-muted">{{ comment.created_at|date:"d M Y H:i" }}</small>
+                            <small class="text-muted">{{ comment.creation_at|date:"d M Y H:i" }}</small>
 
                             <!-- Текст комментария -->
                             <p class="card-text mt-2">{{ comment.text }}</p>
@@ -73,7 +70,7 @@
     <div class="card">
         <div class="row g-0 comment-card">
             <div class="col-5 col-sm-2 text-center">
-                <img src="{{ user.profile.profile_picture.url }}" class="rounded" alt="card-horizontal-image" width="130" height="130">
+                <img src="{{ request.user.profile.profile_picture.url }}" class="rounded" alt="card-horizontal-image" width="130" height="130">
             </div>
             <div class="col-7 col-sm-10">
                 <form method="post">
