@@ -35,8 +35,6 @@
         <!-- форма для отзывов -->
         <div class="container mt-12">
             <h2>Комментарии</h2>
-        
-
     <!-- Список комментариев -->
     <div class="mt-4">
         {% for comment in comments %}
@@ -47,15 +45,20 @@
                         <div class="col-auto">
                             <img src="{{ comment.username.profile.profile_picture.url }}" alt="Аватарка" class="rounded" width="130" height="130">
                         </div>
-
-                        <!-- Текст комментария (правая колонка) -->
+                            <!-- Текст комментария (правая колонка) -->
                         <div class="col">
                             <!-- Имя автора и дата -->
-                            <h5 class="card-title mb-1">{{ comment.author.username }}</h5>
+                            <h5 class="card-title mb-1">{{ comment.username }}</h5>
                             <small class="text-muted">{{ comment.creation_at|date:"d M Y H:i" }}</small>
 
                             <!-- Текст комментария -->
                             <p class="card-text mt-2">{{ comment.text }}</p>
+
+                            {% if user.is_superuser or user == comment.author %}
+                            <div class="d-flex">
+                                <a href="{% url 'deleteComm' comment.id %}" class="btn btn-danger btn-sm">Удалить</a>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

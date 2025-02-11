@@ -16,6 +16,8 @@ urlpatterns = [
     path('signin/', Singin, name='signin'),
     path('logout/', Logout, name='logout'),
     path('profile/', EditProfile, name='profile'),
+
+    path('delete/comment/<int:comm_id>', DeleteComment, name='deleteComm'),
     
 
     # path('book/<int:pk>/', BookDetailView(), name='book-detail'),

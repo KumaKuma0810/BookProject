@@ -75,13 +75,13 @@ def BookDetail(request, book_id):
         'comments': comments
     })
 
-def RemoveComment(request, comm_id):
+def DeleteComment(request, comm_id):
     comment = get_object_or_404(Comment, id=comm_id)
-    book = get_object_or_404(Book, id=book_id)
-    
-    if request.user != comment.user and not request.user.is_superuser:
+
+    if request.user.is_superuser or comment.username == request.user:
         comment.delete()
-        return redirect('bookDetail', book_id=book.id)
+        
+    return comment
 
 
 def SearchBooks(request):
