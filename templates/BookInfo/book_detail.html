@@ -56,7 +56,10 @@
 
                             {% if user.is_superuser or user == comment.author %}
                             <div class="d-flex">
-                                <a href="{% url 'deleteComm' comment.id %}" class="btn btn-danger btn-sm">Удалить</a>
+                                <form action="{% url 'deleteComm' comment.id %}" method=POST>
+                                    {% csrf_token %}
+                                    <button type='submit' class='btn btn-light'> Удалить </button> 
+                                </form>
                             </div>
                             {% endif %}
                         </div>
