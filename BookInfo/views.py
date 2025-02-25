@@ -9,6 +9,8 @@ from django.contrib import messages
 from .models import *
 from .forms import *
 
+
+
 @login_required
 def Logout(request):
     logout(request)
@@ -47,6 +49,7 @@ def BookAdd(request):
 def BookDetail(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     comments = Comment.objects.filter(book=book)
+    recommendations = Book.objects.filter(genre=book.genre).exclude(id=book.id)[:3]
 
     if request.user.is_authenticated:
         favorite, created = Favorite.objects.get_or_create(user=request.user, book=book)
@@ -61,27 +64,31 @@ def BookDetail(request, book_id):
                 username=request.user,
                 text=form.cleaned_data['text']
             )
-
-           
             return redirect('bookDetail', book_id=book.id)
     else:
         form = CommentsForm()
 
+    
+
 
     return render(request, 'BookInfo/book_detail.html', {
+        'recommendations': recommendations,
         'book': book,
         'created': created,
         'form': form,
-        'comments': comments
+        'comments': comments,
     })
 
-def DeleteComment(request, comm_id, ):
+
+@login_required
+def DeleteComment(request, comm_id):
     comment = get_object_or_404(Comment, id=comm_id)
 
     if request.user.is_superuser or comment.username == request.user:
         comment.delete()
     
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
     
 def SearchBooks(request):
     form = SearchForm(request.GET)
@@ -169,3 +176,6 @@ def RemoveFromFavorites(request, id):
     favorite = get_object_or_404(Favorite, user=request.user, book_id=id)
     favorite.delete()
     return redirect('favorites')
+
+
+

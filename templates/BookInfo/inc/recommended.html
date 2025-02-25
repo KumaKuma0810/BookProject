@@ -1,0 +1,17 @@
+ <div class="container mt-5">
+        <div class="row">
+            {% for recommendation in recommendations %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ recommendation.title }}</h5>
+                            <p class="card-text">Автор: {{ recommendation.author }}</p>
+                            <a href="{% url 'book_detail' recommendation.pk %}" class="btn btn-primary">Посмотреть детали</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>Нет рекомендаций для этого жанра.</p>
+            {% endfor %}
+        </div>
+    </div>

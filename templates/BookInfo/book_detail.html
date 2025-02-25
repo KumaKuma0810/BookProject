@@ -29,13 +29,43 @@
                 {% else %}
                     <a href="{% url 'bookList' %}" type="button" class="btn btn-sm btn-outline-secondary">На главную</a>
                 {% endif %}
+                {% if user.is_superuser %}
+                    <a href="{% url 'removeFromFavorites' book.id %}" type="button" class="btn btn-sm btn-outline-secondary">Редактировать книгу</a>
+                    <a href="{% url 'removeFromFavorites' book.id %}" type="button" class="btn btn-sm btn-outline-secondary">Удалить книгу</a>
+                {% endif %}
+                <div class="mt-4">
+                    <div class="card">
+                        <h3>Рек книги</h3>
+                        <div class="container mt-5">
+                            <div class="row">
+                                {% for recommendation in recommendations %}
+                                <div class="col-md-4 recomen-div">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <a href="{% url 'bookDetail' recommendation.id %}">
+                                                <img src="{{ recommendation.cover.url }}" alt="{{ recommendation.name_book }}" class="rec-img">
+                                                <p class="text-center card-title">{{ recommendation.name_book }}</p>    
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                    <p>Нет рекомендаций для этого жанра.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
         <hr>
+        
         <!-- форма для отзывов -->
         <div class="container mt-12">
             <h2>Комментарии</h2>
     <!-- Список комментариев -->
+    
     <div class="mt-4">
         {% for comment in comments %}
             <div class="card mb-3 comment-card">
@@ -54,7 +84,7 @@
                             <!-- Текст комментария -->
                             <p class="card-text mt-2">{{ comment.text }}</p>
 
-                            {% if user.is_superuser or user == comment.author %}
+                            {% if user.is_superuser or request.username == comment.author %}
                             <div class="d-flex">
                                 <form action="{% url 'deleteComm' comment.id %}" method=POST>
                                     {% csrf_token %}

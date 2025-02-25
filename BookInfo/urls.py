@@ -19,7 +19,6 @@ urlpatterns = [
 
     path('comment/<int:comm_id>', DeleteComment, name='deleteComm'),
     
-    
 
     # path('book/<int:pk>/', BookDetailView(), name='book-detail'),
     # path('book/<int:pk>/edit/', BookUpdateView.as_view(), name='book-edit'),
