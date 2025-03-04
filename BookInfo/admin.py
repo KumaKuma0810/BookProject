@@ -3,6 +3,19 @@ from django.utils.html import format_html
 
 from .models import *
 
+class GenreAdmin(admin.ModelAdmin):
+    list_display = ('genre_name',)
+
+
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ('name', 'bio', 'img_author')
+    search_fields = ('name',)
+
+    def display_image(self, obj):
+        if obj.img_author:
+            return format_html('<img src="{}" style="width: 100px; height: 100px; border: 1px solid #ccc;" />', obj.img_author.url)
+
+
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = (
@@ -36,7 +49,7 @@ class ProfileAdmin(admin.ModelAdmin):
 class BookAdmin(admin.ModelAdmin):
     list_display = (
         'name_book',
-        'avtor', 
+        'author', 
         'genre', 
         'date_added',
         'display_image',
@@ -47,9 +60,11 @@ class BookAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" style="width: 100px; height: 100px; border: 1px solid #ccc;" />', obj.cover.url)
 
 
-    search_fields = ('avtor', 'genre', 'date_added')
+    search_fields = ('author', 'genre', 'date_added')
     ordering = ('date_added',)
 
+admin.site.register(Genre, GenreAdmin)
+admin.site.register(Author, AuthorAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Favorite ,ReadListBookAdmin)
 admin.site.register(Profile, ProfileAdmin)

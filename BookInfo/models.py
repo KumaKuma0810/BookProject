@@ -15,12 +15,34 @@ class Profile(models.Model):                #Профиль пользовате
         verbose_name = 'Профиль'
         verbose_name_plural = 'Профили'
 
+class Author(models.Model):
+    name = models.CharField(verbose_name='Имя автора', max_length=255)
+    bio = models.TextField(verbose_name='О авторе', max_length=455, blank=True)
+    img_author = models.ImageField(upload_to='upload/Author/', max_length=255, verbose_name='Фото автора', unique=False, blank=True, default='/upload/Author/default.jpg')
+
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
+
+    def __str__(self):
+        return self.name
+
+class Genre(models.Model):
+    genre_name = models.CharField(verbose_name='Жанр', max_length=20)
+
+    class Meta:
+        verbose_name = 'Жанр'
+        verbose_name_plural = 'Жанры'
+
+    def __str__(self):
+        return self.genre_name
+
+
 
 class Book(models.Model):                   # книга
     name_book = models.CharField(verbose_name='Название книги', max_length=100)
-    avtor = models.CharField(verbose_name='Автор', max_length=100)
-    genre = models.CharField(verbose_name='Жанр', max_length=20)
-    year_of_publication = models.DateField(verbose_name='Дата публикации книги', blank=False)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     description = models.TextField(verbose_name='Описание', blank=False)
     cover = models.ImageField(upload_to='upload/Book/', max_length=100, verbose_name='Обложка книги', unique=False, blank=True, default='/upload/Book/Image-not-found.png')
     date_added = models.DateField(verbose_name='Дата добавления', default=timezone.now, blank=True)
@@ -51,7 +73,7 @@ class Comment(models.Model):                 # отзыв
 
 
 class Favorite(models.Model):          # список чтения
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='fav_user')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Избранное')
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     
     def __str__(self):
@@ -59,4 +81,6 @@ class Favorite(models.Model):          # список чтения
 
     class Meta:
         unique_together = ('user', 'book')
+
+
 

@@ -26,26 +26,33 @@ class UserRegisterForm(UserCreationForm):
             'password2'
         )
 
+class ProfileUpdateForm(forms.ModelForm):
+    profile_picture = forms.ImageField(required=False, label='Аватарка',widget=forms.FileInput(attrs={"type":"file", "class":"custom-file-input", "id":"validatedCustomFile"}))
+    birthday = forms.DateField(required=False, label='Дата рождения', widget=forms.DateInput(attrs={"type":"date", "id":"dateInput", "class":"form-control"}))
+
+    class Meta:
+        model = Profile
+        fields = ['birthday', 'profile_picture']
+
+
 class AddBookForms(forms.ModelForm):
     
     class Meta:
         model = Book
         fields = [
             'name_book',
-            'avtor',
+            'author',
             'genre',
-            'year_of_publication',
             'description',
             'cover'
         ]
-        widgets = {
-            'name_book': forms.TextInput(attrs={'class': 'form-control'}),            
-            'avtor': forms.TextInput(attrs={'class': 'form-control'}),
-            'genre': forms.TextInput(attrs={'class': 'form-control'}),
-            'year_of_publication': forms.DateInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'}),
-            'cover': forms.FileInput(),
-        }
+        # widgets = {
+        #     'name_book': forms.TextInput(attrs={'class': 'form-control'}),            
+        #     'author': forms.TextInput(attrs={'class': 'form-select',}),
+        #     'genre': forms.TextInput(attrs={'class': 'form-select', 'id':'exampleSelect'}),
+        #     'description': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'}),
+        #     'cover': forms.FileInput(),
+        # }
 
 class CommentsForm(forms.ModelForm):
     class Meta:
@@ -66,11 +73,4 @@ class UserUpdateForm(forms.ModelForm):
         fields = ['username', 'email']
 
 
-class ProfileUpdateForm(forms.ModelForm):
-    profile_picture = forms.ImageField(label='Аватарка',widget=forms.FileInput(attrs={"type":"file", "class":"custom-file-input", "id":"validatedCustomFile"}))
-    birthday = forms.DateField(label='Дата рождения', widget=forms.DateInput(attrs={"type":"date", "id":"dateInput", "class":"form-control"}))
-
-    class Meta:
-        model = Profile
-        fields = ['birthday', 'profile_picture']
     

@@ -13,9 +13,8 @@
             </div>
             <div class="col-md-8">
                 <h2>{{ book.name_book }}</h2>
-                <p><strong>Автор:</strong> {{ book.avtor }} </p>
-                <p><strong>Жанр:</strong> {{ book.genre }} </p>
-                <p><strong>Год публикации:</strong> {{ book.year_of_publication }}</p>
+                <p><strong>Автор:</strong> <a href="{% url 'SearchAuthor' book.author.id %}"> {{ book.author }} </a></p>
+                <p><strong>Жанр:</strong> <a href="{% url 'SearchGenre' book.genre.id %}">  {{ book.genre }} </a> </p>
                 <br>
                 <h5>Описание</h5>
                 <p> {{ book.description }}</p>
@@ -35,7 +34,7 @@
                 {% endif %}
                 <div class="mt-4">
                     <div class="card">
-                        <h3>Рек книги</h3>
+                        <h3>Рекомендуем </h3>
                         <div class="container mt-5">
                             <div class="row">
                                 {% for recommendation in recommendations %}
@@ -84,13 +83,13 @@
                             <!-- Текст комментария -->
                             <p class="card-text mt-2">{{ comment.text }}</p>
 
-                            {% if user.is_superuser or request.username == comment.author %}
-                            <div class="d-flex">
-                                <form action="{% url 'deleteComm' comment.id %}" method=POST>
-                                    {% csrf_token %}
-                                    <button type='submit' class='btn btn-light'> Удалить </button> 
-                                </form>
-                            </div>
+                            {% if request.user.is_superuser or request.user == comment.username %}
+                                <div class="d-flex">
+                                    <form action="{% url 'deleteComm' comment.id %}" method=POST>
+                                        {% csrf_token %}
+                                        <button type='submit' class='btn btn-light'> Удалить </button> 
+                                    </form>
+                                </div>
                             {% endif %}
                         </div>
                     </div>

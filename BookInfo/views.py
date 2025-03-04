@@ -10,6 +10,19 @@ from .models import *
 from .forms import *
 
 
+@login_required
+def SearchGenre(request, genre_id):
+    genre = Book.objects.filter(genre=genre_id)
+
+    return render(request, 'BookInfo/resultGenre.html', {'res_category': genre})
+
+
+@login_required
+def SearchAuthor(request, author_id):
+    author = Book.objects.filter(author=author_id)
+
+    return render(request, 'BookInfo/resultAuthor.html', {'author': author})
+
 
 @login_required
 def Logout(request):
@@ -36,6 +49,9 @@ def BookList(request):
 
 
 def BookAdd(request):
+    genre = Genre.objects.all()
+    author = Author.objects.all()
+
     if request.method == 'POST':
         form = AddBookForms(request.POST, request.FILES)
         if form.is_valid():
@@ -43,7 +59,11 @@ def BookAdd(request):
             return redirect('/')  # Перенаправление на страницу со списком продуктов
     else:
         form = AddBookForms()
-    return render(request, 'BookInfo/book_add.html', {'form': form})
+    return render(request, 'BookInfo/book_add.html', {
+        'form': form, 
+        'genre': genre,
+        'author': author
+    })
 
 
 def BookDetail(request, book_id):
@@ -68,9 +88,6 @@ def BookDetail(request, book_id):
     else:
         form = CommentsForm()
 
-    
-
-
     return render(request, 'BookInfo/book_detail.html', {
         'recommendations': recommendations,
         'book': book,
@@ -84,7 +101,7 @@ def BookDetail(request, book_id):
 def DeleteComment(request, comm_id):
     comment = get_object_or_404(Comment, id=comm_id)
 
-    if request.user.is_superuser or comment.username == request.user:
+    if request.user.is_superuser or request.user == comment.username :
         comment.delete()
     
     return redirect(request.META.get('HTTP_REFERER', '/'))

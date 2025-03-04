@@ -5,23 +5,38 @@
 {% block content %}
 
 <div class="container mt-5">
-    <h2>Добавить новый продукт</h2>
-<!-- <form>
-    <div class="mb-3">
-    <label for="productName" class="form-label">Название продукта</label>
-    <input type="text" class="form-control" id="productName" placeholder="Введите название продукта" required>
-    </div>
-
-    <div class="mb-3">
-    <label for="productDescription" class="form-label">Описание</label>
-    <textarea class="form-control" id="productDescription" rows="3" placeholder="Введите описание продукта" required></textarea>
-    </div> -->
-
     <div class="mb-3">
         <form method="POST">
             {% csrf_token %}
-            {{form.as_p}}
-            <button type="submit" class="btn btn-primary">Добавить продукт</button>
+            <div class="mb-3">
+                <label for="id_title" class="form-label">Название книги: </label>
+                <input type="text" name="name_book" id="title_book" class="form-control" value="{{ form.title.value|default:'' }}">
+            </div>
+            <div class="mb-3">
+                <label for="id_title" class="form-label">Описание книги: </label>
+                <textarea type="text" name="title" id="id_title" class="form-control" value="{{ form.title.value|default:'' }}"> </textarea>
+            </div>
+            <div class="mb-3">
+                <label for="id_title" class="form-label">Автор: </label>
+                <select class="form-select" id="exampleSelect">
+                    {% for obj in author %}
+                        <option value="{{ obj.name }}">{{ obj.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="id_title" class="form-label">Жанр: </label>
+                <select class="form-select" id="exampleSelect">
+                    {% for obj in genre %}
+                        <option value="{{ obj.genre_name }}">{{ obj.genre_name }}</option>
+                    {% endfor %}
+                </select>   
+            </div>
+            <div class="mb-3">
+                <label for="id_cover_image" class="form-label">Обложка книги</label>
+                <input type="file" name="cover_image" id="id_cover_image" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Добавить</button>
         </form>
     </div>
 </div>

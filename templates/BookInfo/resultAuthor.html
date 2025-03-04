@@ -1,0 +1,40 @@
+{% extends 'BookInfo/base.html' %}
+
+{% block title %}Список книг{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-nowrap container-main" id="book-list">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for obj in author %}
+        <div class="col col-book-list card-book">
+            <div class="card shadow-sm ">
+            <img src="{{ obj.cover.url }}" alt="{{ book.name_book }}" class="card-img-top" width="100%" height="355">
+            <div class="card-body">
+                <h4> <a href="{% url 'bookDetail' obj.id %}"> {{ obj.name_book|truncatechars:26 }} </h4></a>
+                <p class="card-text"> {{ obj.description|truncatechars:150 }} </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="{% url 'bookDetail' obj.pk %}" type="button" class="btn btn-sm btn-outline-secondary"> Подробнее</a>    
+                    </div>
+                    <small class="text-body-secondary"> {{ obj.date_added }}</small>
+                </div>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- <nav aria-label="...">
+    <ul class="pagination justify-content-center">
+        {% for p in page_obj.paginator.page_range %}
+        <li class="page-item" aria-current="page">
+            <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+  </nav> -->
+
+{% endblock %}

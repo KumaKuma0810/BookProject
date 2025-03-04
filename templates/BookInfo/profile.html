@@ -5,30 +5,31 @@
 {% block content %}
     <div class="container mt-5">
         <h1 class="mb-4 text-center">Редактирование профиля</h1>
-        <div class="container text-center">
-            <img width="250" src="{{ user.profile.profile_picture.url}}" alt="Avatar" class="rounded">
-        </div>
-        <form method="post" enctype="multipart/form-data" class="row g-3">
-            {% csrf_token %}
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <form>
-                    {{ user_form.as_p }}
-                    {{ profile_form.as_p }}
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            <div class="container d-flex justify-content-center align-items-center">
+                <div class="row">
+                    <div class="col-4"> 
+                        <img width="250" src="{{ user.profile.profile_picture.url}}" alt="Avatar" class="rounded">
                     </div>
-                </form>
+                    <div class="col-8">
+                        <form method="post" enctype="multipart/form-data" class="row g-3">
+                            {% csrf_token %}
+                            {{ user_form.as_p }}
+                            {{ profile_form.as_p }}
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                            </div>
+                            <div class="col-12 text-center">
+                                <a href="{% url 'logout' %}" class="btn btn-danger">Выйти</a>
+                            </div>
+                            
+                        </form>
+
+                    </div>
+                </div>
                 
             </div>
-            <div class="col-md-2"></div>
             
-            <div class="col-12 text-center">
-                
-            </div>
-            <div class="col-12 text-center">
-                <a href="{% url 'logout' %}" class="btn btn-danger">Выйти</a>
-            </div>
-        </form>
+
+            
     </div>
 {% endblock %}
