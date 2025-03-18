@@ -12,9 +12,9 @@ from .forms import *
 
 @login_required
 def SearchGenre(request, genre_id):
-    genre = Book.objects.filter(genre=genre_id)
+    genre_book = Book.objects.filter(genre_id=genre_id)
 
-    return render(request, 'BookInfo/resultGenre.html', {'res_category': genre})
+    return render(request, 'BookInfo/resultGen.html', {'genre_book': genre_book})
 
 
 @login_required
@@ -46,7 +46,6 @@ def BookList(request):
         'page_obj': page_obj,
         }
     )
-
 
 def BookAdd(request):
     genre = Genre.objects.all()
