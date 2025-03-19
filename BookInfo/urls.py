@@ -19,8 +19,8 @@ urlpatterns = [
 
     path('comment/<int:comm_id>', DeleteComment, name='deleteComm'),
    
-    path('result_category/<int:author_id>', SearchAuthor, name='SearchAuthor'), 
-    path('result_category/<int:genre_id>', SearchGenre, name='SearchGenre'), 
+    path('result_author/<int:author_id>', SearchAuthor, name='SearchAuthor'), 
+    path('result_genre/<int:genre_id>', SearchGenre, name='SearchGenre'), 
 
     # path('book/<int:pk>/', BookDetailView(), name='book-detail'),
     # path('book/<int:pk>/edit/', BookUpdateView.as_view(), name='book-edit'),

@@ -12,7 +12,8 @@ from .forms import *
 
 @login_required
 def SearchGenre(request, genre_id):
-    genre_book = Book.objects.filter(genre_id=genre_id)
+    genre = get_object_or_404(Genre, id=genre_id)
+    genre_book = Book.objects.filter(genre__genre_name=genre)
 
     return render(request, 'BookInfo/resultGen.html', {'genre_book': genre_book})
 
@@ -54,10 +55,17 @@ def BookAdd(request):
     if request.method == 'POST':
         form = AddBookForms(request.POST, request.FILES)
         if form.is_valid():
-            form.save()  # Сохраняем новый продукт в базе данных
-            return redirect('/')  # Перенаправление на страницу со списком продуктов
+            name_book = form.cleaned_data['name_book']
+            author = form.cleaned_data['author']
+            genre = form.cleaned_data['genre']
+            description = form.cleaned_data['description']
+            cover = form.cleaned_data['cover']
+            form.save()
+
+            return redirect('bookList')  # Перенаправление на страницу со списком продуктов
     else:
         form = AddBookForms()
+
     return render(request, 'BookInfo/book_add.html', {
         'form': form, 
         'genre': genre,

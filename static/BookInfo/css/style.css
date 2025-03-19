@@ -1,3 +1,11 @@
+.review-container {
+    padding: 5px;
+}
+
+.review-star{
+    width: 40px; /* Ширина звезды */
+}
+
 .recomen-div {
     text-align: center;
 }

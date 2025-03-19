@@ -51,7 +51,7 @@ class Book(models.Model):                   # книга
     class Meta:
         verbose_name = 'Книги'
         verbose_name_plural = 'Книги'
-        ordering = ['-date_added']
+        ordering = ['date_added']
     
     def __str__(self):
         return self.name_book
